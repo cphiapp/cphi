@@ -1,0 +1,29 @@
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col">
+            <h1 class="center">Create Element</h1>
+            <div class ="center error">{{getErrorMessage()}}</div>
+            <form spellcheck="false" [formGroup]="getElementCreateForm()" class="center" (ngSubmit)="onElementCreateFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="elementName">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Content</mat-label>
+                    <textarea matInput formControlName="content"></textarea>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="elementType">
+                        <mat-option *ngIf="canCreate('TYPE_WEBPAGE')" value="TYPE_WEBPAGE">Webpage</mat-option>
+                        <mat-option *ngIf="canCreate('TYPE_SCRIPT')" value="TYPE_SCRIPT">Script</mat-option>
+                        <mat-option *ngIf="canCreate('TYPE_STYLESHEET')" value="TYPE_STYLESHEET">Stylesheet</mat-option>
+                        <mat-option *ngIf="canCreate('TYPE_MACRO')" value="TYPE_MACRO">Macro</mat-option>
+                        <mat-option value="TYPE_OTHER">Other</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">Create Element</button>
+            </form>
+        </div>
+    </div>
+</div>

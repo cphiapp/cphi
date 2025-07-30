@@ -1,0 +1,29 @@
+<div class="container-fluid content">
+  <div class="row">
+    <div class="col">
+      <h1 class="center">Register</h1>
+      <div class ="center error">{{getErrorMessage()}}</div>
+      <form spellcheck="false" [formGroup]="getRegisterForm()" class="center" (ngSubmit)="onRegisterFormSubmit()">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="userName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="displayName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput class="passwordfield" type="{{getPasswordInputType('password')}}" autocomplete="off" formControlName="password">
+          <mat-icon (mousedown)="showPassword('password')" (mouseup)="hidePassword('password')" (mouseleave)="hidePassword('password')">visibility</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Confirm Password</mat-label>
+          <input matInput class="passwordfield" type="{{getPasswordInputType('passwordConfirm')}}" autocomplete="off" formControlName="passwordConfirm">
+          <mat-icon (mousedown)="showPassword('passwordConfirm')" (mouseup)="hidePassword('passwordConfirm')" (mouseleave)="hidePassword('passwordConfirm')">visibility</mat-icon>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+</div>

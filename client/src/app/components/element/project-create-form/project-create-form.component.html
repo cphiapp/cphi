@@ -1,0 +1,15 @@
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col">
+            <h1 class="center">Create Project</h1>
+            <div class ="center error">{{getErrorMessage()}}</div>
+            <form spellcheck="false" class="center" [formGroup]="getProjectCreateForm()" (ngSubmit)="onProjectCreateFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="projectName">
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">Create Project</button>
+            </form>
+        </div>
+    </div>
+</div>

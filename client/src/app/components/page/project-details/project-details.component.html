@@ -1,0 +1,10 @@
+<div class="container-fluid content menubarpush">
+  <div class="row">
+    <div class="col">
+      <h1 class="center">{{getCurrentProject().getProjectName()}}</h1>
+      <div class ="center error">{{getErrorMessage()}}</div>
+      <app-project-element-list class="component-separator" [currentProject]="this.getCurrentProject()"></app-project-element-list>
+      <app-project-user-list class="component-separator" [currentProject]="this.getCurrentProject()"></app-project-user-list>
+    </div>
+  </div>
+</div>

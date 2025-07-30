@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+td {
+    text-align: left;
+    max-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: auto;
+}
+
+td:last-of-type {
+    width: 0px;
+    max-width: 100%;
+}
+
+th:last-of-type {
+    width: 0px;
+    max-width: 100%;
+}

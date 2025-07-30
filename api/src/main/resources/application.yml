@@ -1,0 +1,35 @@
+micronaut:
+  application:
+    name: demo
+  server:
+    cors:
+      enabled: true
+    port: 8080
+
+pagination:
+  default-count: 10
+
+#mongodb:
+#  uri: ${MONGODB_URI}
+
+  server:
+    cors:
+      enabled: true
+    port: 8080
+
+datasources:
+  default:
+    dialect: H2
+    url: jdbc:h2:file:~;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: admin
+    password: password
+    driverClassName: org.h2.Driver
+
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+          charset_name: UTF-8
+        show_sql: true

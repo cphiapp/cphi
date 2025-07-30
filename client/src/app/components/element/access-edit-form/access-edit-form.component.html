@@ -1,0 +1,22 @@
+<div class="container-fluid content">
+  <div class="row">
+    <div class="col">
+      <h1 class="center">Edit {{getUserName()}}</h1>
+      <div class="center error">{{getErrorMessage()}}</div>
+      <form spellcheck="false" [formGroup]="getAccessEditForm()" class="center" (ngSubmit)="onAccessEditFormSubmit()">
+        <mat-form-field>
+          <mat-label>Roles</mat-label>
+          <mat-select multiple formControlName="accessTypes">
+            <mat-option *ngIf="canGrantAdmin()" value="ACCESS_ADMIN">Admin</mat-option>
+            <mat-option value="ACCESS_STYLE">Designer</mat-option>
+            <mat-option value="ACCESS_MACRO">Content Writer</mat-option>
+            <mat-option value="ACCESS_SCRIPT">JS Develeoper</mat-option>
+            <mat-option value="ACCESS_WEB">Web Developer</mat-option>
+            <mat-option value="ACCESS_GENERATOR">Generate Elements</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

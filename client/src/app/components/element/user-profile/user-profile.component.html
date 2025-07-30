@@ -1,0 +1,18 @@
+<div class="container-fluid content">
+  <div class="row">
+    <h1 class="center">Profile</h1>
+    <div class="col-sm-12">
+      <strong>User ID:</strong> {{getCurrentUser().getUserId()}}
+    </div>
+    <div class="col-sm-12">
+      <strong>Username:</strong> {{getCurrentUser().getUserName()}}
+    </div>
+    <div class="col-sm-12">
+      <strong>Name:</strong> {{getCurrentUser().getDisplayName()}}
+    </div>
+    <div class="col-sm-12 center">
+      <button mat-raised-button color="primary" (click)="openUserEditDialog()">Edit</button>
+      <button mat-raised-button color="primary" (click)="openPasswordEditDialog()">Change Password</button>
+    </div>
+  </div>
+</div>

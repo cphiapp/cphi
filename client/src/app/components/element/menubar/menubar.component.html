@@ -1,0 +1,16 @@
+<div class="container-fluid" *ngIf="isLoggedIn()">
+  <div class="row">
+    <div class="col-sm-2"> <!-- Left Padding--></div>
+    <div class="col-sm-8 content menubar">
+      <div class="row">
+        <div class="col-sm">System</div>
+        <div class="col-sm highlight" routerLink="/projects">Projects</div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+        <div class="col-sm highlight" (click)="openUserProfileDialog()"> <img src="./favicon.ico"> {{getCurrentUser().getDisplayName()}}</div>
+        <div class="col-sm highlight" (click)="logout()">Logout</div>
+      </div>
+    </div>
+    <div class="col-sm-2"> <!-- Right Padding--></div>
+  </div>
+</div>

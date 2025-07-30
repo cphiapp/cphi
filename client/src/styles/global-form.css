@@ -1,0 +1,16 @@
+form button {
+    margin-bottom: 16px;
+    width: 75%;
+}
+
+form button:last-of-type {
+    margin-bottom: 0px;
+}
+
+form mat-form-field {
+    width: 100%;
+}
+
+form input.passwordfield {
+    width: 95%;
+}

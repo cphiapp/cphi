@@ -1,0 +1,39 @@
+<div class="container-fluid content">
+    <div class="row">
+      <div class="col">
+        <h1 class="center">Add User</h1>
+        <div class ="center error">{{getErrorMessage()}}</div>
+        <form spellcheck="false" [formGroup]="getUserSearchForm()" class="center" (ngSubmit)="onUserSearchFormSubmit()">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput type="text" autocomplete="false" formControlName="userName">
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Search</button>
+        </form>
+        <table class="center" mat-table [dataSource]="getFoundUserData()">
+            <ng-container matColumnDef="user">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let user"> <img src="{{user.getImageLink()}}"> {{user.getDisplayName()}} ({{user.getUserName()}})</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let user">
+                    <button mat-icon-button *ngIf="canAddUser(user)" (click)="addUserToProject(user)">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getColumns();"></tr>
+        </table>
+        <mat-paginator class="center"
+            #paginator
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 25, 50]"
+            showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+</div>

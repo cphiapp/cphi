@@ -1,0 +1,57 @@
+<div class="container-fluid content menubarpush">
+  <div class="row">
+    <div class="col">
+      <h1 class="center">Projects</h1>
+      <div class="col-sm-12 filter">
+        <form spellcheck="false" [formGroup]="getFilterForm()">
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput type="text" formControlName="pattern" autocomplete="false">
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="col-sm-12">
+        <div class="center error">{{getErrorMessage()}}</div>
+        <div class="center">
+          <table mat-table [dataSource]="getProjectData()">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let project">{{project.getProjectName()}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="roles">
+              <th mat-header-cell *matHeaderCellDef>Roles</th>
+              <td mat-cell *matCellDef="let project">{{project.getAccessTypesAsReadableString()}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let project">
+                <button mat-icon-button (click)="navigateToProject(project)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="canEdit(project.getAccessTypes())" (click)="openProjectEditDialog(project)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="canDelete(project.getAccessTypes())" (click)="deleteProject(project)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: getColumns();"></tr>
+          </table>
+          <mat-paginator
+            #paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[10, 25, 50]"
+            showFirstLastButtons>
+          </mat-paginator>
+
+          <button mat-raised-button color="primary" (click)="openProjectNewDialog()">Create project</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<h1 class="center">Users</h1>
+<div class="row">
+  <div class="col-sm-12 filter">
+    <form spellcheck="false" [formGroup]="getFilterForm()">
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput type="text" formControlName="pattern" autocomplete="false">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Roles</mat-label>
+        <mat-select multiple formControlName="accessTypes">
+          <mat-option value="ACCESS_OWNER">Owner</mat-option>
+          <mat-option value="ACCESS_ADMIN">Admin</mat-option>
+          <mat-option value="ACCESS_STYLE">Designer</mat-option>
+          <mat-option value="ACCESS_MACRO">Content Writer</mat-option>
+          <mat-option value="ACCESS_SCRIPT">JS Develeoper</mat-option>
+          <mat-option value="ACCESS_WEB">Web Developer</mat-option>
+          <mat-option value="ACCESS_GENERATOR">Generate Elements</mat-option>
+          <mat-option value="ACCESS_USER">User</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="col-sm-12">
+    <div class ="center error">{{getErrorMessage()}}</div>
+    <div class="center">
+      <table mat-table [dataSource]="getUserData()">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let user"><img src="{{user.getImageLink()}}"> {{user.getDisplayName()}} ({{user.getUserName()}})</td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let user">{{user.getAccessTypesAsReadableString()}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let user">
+            <button mat-icon-button *ngIf="canEdit(user.getAccessTypes())" (click)="openUserEditDialog(user)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="canDelete(user.getAccessTypes())" (click)="deleteUser(user)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+        <tr mat-row *matRowDef="let row; columns: getColumns();"></tr>
+      </table>
+      <mat-paginator
+        #paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons>
+      </mat-paginator>
+
+      <button mat-raised-button *ngIf="canAdd()" color="primary" (click)="openUserNewDialog()">Add user</button>
+    </div>
+  </div>
+</div>

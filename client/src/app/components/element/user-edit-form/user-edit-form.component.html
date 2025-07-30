@@ -1,0 +1,19 @@
+<div class="container-fluid content">
+  <div class="row">
+    <div class="col">
+      <h1 class="center">Edit Profile</h1>
+      <div class ="center error">{{getErrorMessage()}}</div>
+      <form spellcheck="false" [formGroup]="getUserEditForm()" class="center" (ngSubmit)="onUserEditFormSubmit()">
+        <mat-form-field>
+          <mat-label>Display Name</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="displayName">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Profile image link</mat-label>
+          <input matInput type="url" autocomplete="off" formControlName="imageLink">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Edit Profile</button>
+      </form>
+    </div>
+  </div>
+</div>

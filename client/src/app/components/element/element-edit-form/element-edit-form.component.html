@@ -1,0 +1,15 @@
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col">
+            <h1 class="center">Edit {{getElementName()}}</h1>
+            <div class ="center error">{{getErrorMessage()}}</div>
+            <form spellcheck="false" [formGroup]="getElementEditForm()" class="center" (ngSubmit)="onElementEditFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Content</mat-label>
+                    <textarea matInput formControlName="content"></textarea>
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">Edit Element</button>
+            </form>
+        </div>
+    </div>
+</div>
