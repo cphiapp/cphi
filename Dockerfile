@@ -2,19 +2,19 @@
 # Optimized for ECS Fargate with DocumentDB (ARM64/Graviton)
 
 # Stage 1: Build Angular Frontend
-FROM --platform=linux/arm64 node:18-alpine AS frontend-build
+FROM node:18-alpine AS frontend-build
 WORKDIR /app/client
 
-# Copy package files and install dependencies
+# Copy package files and install dependencies (including dev dependencies for build)
 COPY client/package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 
-# Copy source code and build
+# Copy source code and build for production
 COPY client/ ./
-RUN npm run build
+RUN npm run build --configuration=production
 
 # Stage 2: Build Java Backend
-FROM --platform=linux/arm64 eclipse-temurin:17-jdk-jammy AS backend-build
+FROM eclipse-temurin:17-jdk-jammy AS backend-build
 WORKDIR /app/api
 
 # Copy Gradle wrapper and build files
@@ -32,7 +32,7 @@ COPY api/src/ src/
 RUN ./gradlew shadowJar --no-daemon
 
 # Stage 3: Runtime Image
-FROM --platform=linux/arm64 eclipse-temurin:17-jre-jammy AS runtime
+FROM eclipse-temurin:17-jre-jammy AS runtime
 
 # Install nginx for serving static files
 RUN apt-get update && \
@@ -47,7 +47,7 @@ WORKDIR /app
 COPY --from=backend-build /app/api/build/libs/*-all.jar app.jar
 
 # Copy built Angular app from frontend build stage
-COPY --from=frontend-build /app/client/dist/ /var/www/html/
+COPY --from=frontend-build /app/client/dist/ecms-client/ /var/www/html/
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
