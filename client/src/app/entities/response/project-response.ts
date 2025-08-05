@@ -1,10 +1,10 @@
 export class ProjectAccess {
 
-    private projectId: string
-    private projectName: string
-    private accessTypes: string[]
+    public projectId: string
+    public projectName: string
+    public accessTypes: string[]
 
-    constructor(init?: ProjectAccess) {
+    constructor(init?: Partial<ProjectAccess>) {
         Object.assign(this, init)
     }
 

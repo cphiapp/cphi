@@ -1,6 +1,6 @@
 export class ModifyProjectRequest {
 
-    private projectName: string
+    public projectName: string
 
     constructor(init?: ModifyProjectRequest) {
         Object.assign(this, init)

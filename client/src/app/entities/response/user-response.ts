@@ -1,10 +1,10 @@
 export class User {
 
-    private userId: string
-    private userName: string
-    private displayName: string
+    public userId: string
+    public userName: string
+    public displayName: string
 
-    constructor(init: User) {
+    constructor(init: Partial<User>) {
         Object.assign(this, init)
     }
 

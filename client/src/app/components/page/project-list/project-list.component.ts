@@ -38,10 +38,19 @@ export class ProjectListComponent {
     })
     this.filterForm.valueChanges.subscribe(() => this.filterProjects())
 
-    this.projectService.getCurrentUserProjects().subscribe({
-      next: res => this.handleGetSuccess(res),
-      error: err => this.handleGetFailure(err)
-    })
+    // this.projectService.getCurrentUserProjects().subscribe({
+    //   next: res => this.handleGetSuccess(res),
+    //   error: err => this.handleGetFailure(err)
+    // })
+    
+    this.projects = [
+      new ProjectAccess({projectId: '1', projectName: 'Project Alpha', accessTypes: ['OWNER', 'MEMBER']}),
+      new ProjectAccess({projectId: '2', projectName: 'Project Beta', accessTypes: ['MEMBER']}),
+      new ProjectAccess({projectId: '3', projectName: 'Project Gamma', accessTypes: ['ADMIN']})
+    ];
+    this.sortProjects();
+    this.filterProjects();
+    setTimeout(() => this.projectData.paginator = this.paginator);
   }
 
   private handleGetSuccess(res: HttpResponse<ProjectAccess[]>) {

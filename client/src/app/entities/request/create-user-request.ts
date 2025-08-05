@@ -1,8 +1,8 @@
 export class CreateUserRequest {
 
-    private userName: string
-    private displayName: string
-    private password: string
+    public userName: string
+    public displayName: string
+    public password: string
 
     constructor(init?: CreateUserRequest) {
         Object.assign(this, init)

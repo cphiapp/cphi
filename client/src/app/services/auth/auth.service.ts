@@ -30,7 +30,7 @@ export class AuthService {
   login(user: User) {
       this.isLoggedIn = true
       this.currentUser = user
-      this.router.navigate(["/projects"])
+      this.router.navigate(["/appointments"])
   }
 
   logout() {
