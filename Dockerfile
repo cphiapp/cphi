@@ -2,7 +2,7 @@
 # Optimized for ECS Fargate with DocumentDB (ARM64/Graviton)
 
 # Stage 1: Build Angular Frontend
-FROM --platform=linux/arm64 node:18-alpine AS frontend-build
+FROM node:18-alpine AS frontend-build
 WORKDIR /app/client
 
 # Copy package files and install dependencies
@@ -14,7 +14,7 @@ COPY client/ ./
 RUN npm run build
 
 # Stage 2: Build Java Backend
-FROM --platform=linux/arm64 openjdk:17-jdk-slim AS backend-build
+FROM eclipse-temurin:17-jdk-alpine AS backend-build
 WORKDIR /app/api
 
 # Copy Gradle wrapper and build files
@@ -32,13 +32,10 @@ COPY api/src/ src/
 RUN ./gradlew shadowJar --no-daemon
 
 # Stage 3: Runtime Image
-FROM --platform=linux/arm64 openjdk:17-jre-slim AS runtime
+FROM eclipse-temurin:17-jre-alpine AS runtime
 
 # Install nginx for serving static files
-RUN apt-get update && \
-    apt-get install -y nginx && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache nginx
 
 # Create app directory
 WORKDIR /app
@@ -52,23 +49,40 @@ COPY --from=frontend-build /app/client/dist/ /var/www/html/
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
+# Create nginx directories
+RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
+
+# Create startup script with proper process management
+RUN echo '#!/bin/sh\n\
+set -e\n\
+\n\
+# Function to handle shutdown\n\
+shutdown() {\n\
+    echo "Shutting down..."\n\
+    kill $JAVA_PID 2>/dev/null || true\n\
+    nginx -s quit 2>/dev/null || true\n\
+    exit 0\n\
+}\n\
+\n\
+# Set up signal handlers\n\
+trap shutdown TERM INT\n\
+\n\
 # Start nginx in background\n\
 nginx &\n\
 \n\
-# Start Java application\n\
-exec java -jar /app/app.jar' > /app/start.sh && \
+# Start Java application in background\n\
+java -jar /app/app.jar &\n\
+JAVA_PID=$!\n\
+\n\
+# Wait for Java process\n\
+wait $JAVA_PID' > /app/start.sh && \
     chmod +x /app/start.sh
 
 # Expose ports
 EXPOSE 8080 80
 
 # Install curl for health checks
-RUN apt-get update && \
-    apt-get install -y curl && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache curl
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
