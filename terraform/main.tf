@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
   health_check {
     enabled             = true
-    path                = "/health"
+    path                = "/"
     port                = "traffic-port"
     healthy_threshold   = 3
     unhealthy_threshold = 2
@@ -91,64 +91,83 @@ resource "aws_ecs_cluster" "main" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "${var.project_name}-app"
+  family                   = "ecms-app"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "512"  # Total CPU for the task
-  memory                   = "1024" # Total memory for the task
+  cpu                      = "1024"
+  memory                   = "2048"
   runtime_platform {
-    operating_system_family = "LINUX"
     cpu_architecture        = "ARM64"
+    operating_system_family = "LINUX"
   }
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.ecs_task_role.arn
   container_definitions = jsonencode([
-    # Backend (Node.js) Container
     {
-      name      = "backend"
-      image     = var.backend_image_url
-      cpu       = 256
-      memory    = 512
+      name      = "ecms-app"
+      image     = "036346232890.dkr.ecr.us-east-1.amazonaws.com/cphi:latest"
       essential = true
 
       portMappings = [
         {
-          containerPort = 3000
-          hostPort      = 3000
+          containerPort = 80
           protocol      = "tcp"
+          name          = "http"
+        },
+        {
+          containerPort = 8080
+          protocol      = "tcp"
+          name          = "api"
         }
       ]
+
       environment = [
-        { name = "NODE_ENV", value = "production" },
-        { name = "PORT", value = "3000" },
-        { name = "DB_HOST", value = "http;hs" },
-        { name = "DB_PORT", value = "5432" },
-        { name = "DB_USER", value = "postgres" },
-        { name = "DB_NAME", value = "cphi_sharing" },
-        { name = "BLOB_STORAGE_BUCKET", value = module.s3_cphi.s3_bucket_id },
-        { name = "BLOB_STORAGE_ENDPOINT", value = "s3.${var.aws_region}.amazonaws.com" },
-        { name = "BLOB_STORAGE_INTERNAL_ENDPOINT", value = "s3.${var.aws_region}.amazonaws.com" },
-        { name = "BLOB_STORAGE_PORT", value = "443" },
-        { name = "BLOB_STORAGE_REGION", value = var.aws_region },
-        { name = "BLOB_STORAGE_USE_SSL", value = "true" },
-        { name = "BLOB_STORAGE_ACCESS_KEY", value = "" },
-        { name = "BLOB_STORAGE_SECRET_KEY", value = "" },
-        { name = "TRUSTED_ORIGINS", value = "http://${aws_s3_bucket.frontend.id}.s3-website-us-east-1.amazonaws.com" }
+        {
+          name  = "MICRONAUT_ENVIRONMENTS"
+          value = "production"
+        },
+        {
+          name  = "DATABASE_URL"
+          value = "docdb-cphi.cluster-cq5qgu02qckj.us-east-1.docdb.amazonaws.com"
+        },
+        {
+          name  = "JAVA_OPTS"
+          value = "-Xmx1536m -XX:+UseG1GC -XX:+UseStringDeduplication"
+        }
       ]
+
       secrets = [
         {
-          name      = "DB_PASSWORD"
-          valueFrom = aws_secretsmanager_secret.def.arn
+          name      = "username"
+          valueFrom = "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
+        },
+        {
+          name      = "password"
+          valueFrom = "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
         }
       ]
+
+      healthCheck = {
+        command = [
+          "CMD-SHELL",
+          "curl -f http://localhost:8080/health || exit 1"
+        ]
+        interval    = 30
+        timeout     = 5
+        retries     = 3
+        startPeriod = 60
+      }
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.app.name
-          "awslogs-region"        = var.aws_region
-          "awslogs-stream-prefix" = "backend"
+          "awslogs-group"         = "/ecs/cphi-app"
+          "awslogs-region"        = "us-east-1"
+          "awslogs-stream-prefix" = "ecs"
         }
       }
+
+      stopTimeout = 30
     }
   ])
 }
@@ -167,8 +186,8 @@ resource "aws_ecs_service" "app" {
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.app.arn
-    container_name   = "backend"
-    container_port   = 3000
+    container_name   = "ecms-app"
+    container_port   = 8080
   }
   depends_on = [aws_lb_listener.http_forward]
 }
@@ -186,8 +205,8 @@ resource "aws_security_group" "ecs_service_sg" {
 
   ingress {
     description     = "Allow HTTP traffic from ALB"
-    from_port       = 3000
-    to_port         = 3000
+    from_port       = 8080
+    to_port         = 8080
     protocol        = "tcp"
     security_groups = [aws_security_group.lb.id]
   }
@@ -284,7 +303,7 @@ resource "aws_iam_policy" "secrets_manager_read" {
     Statement = [{
       Action   = "secretsmanager:GetSecretValue",
       Effect   = "Allow",
-      Resource = aws_secretsmanager_secret.def.arn
+      Resource = "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
       },
       {
         Action   = "kms:*",
@@ -302,7 +321,7 @@ resource "aws_iam_role_policy_attachment" "s3_cphi_access" {
 ########################################################################################################
 # Utils
 ########################################################################################################
-
+/*
 resource "aws_secretsmanager_secret" "def" {
   kms_key_id              = aws_kms_key.default.key_id
   name                    = "rds_secret"
@@ -314,6 +333,7 @@ resource "aws_secretsmanager_secret_version" "secret" {
   secret_id     = aws_secretsmanager_secret.def.id
   secret_string = random_password.password.result
 }
+*/
 
 resource "aws_kms_key" "default" {
   description             = "KMS key for RDS"
@@ -327,9 +347,7 @@ resource "random_password" "password" {
   special = true
 }
 
-resource "aws_ecr_repository" "backend" {
-  name = "${var.project_name}/backend"
-}
+
 
 
 ########################################################################################################

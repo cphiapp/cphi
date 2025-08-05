@@ -10,12 +10,12 @@
         "cpuArchitecture": "ARM64",
         "operatingSystemFamily": "LINUX"
     },
-    "executionRoleArn": "arn:aws:iam::036346232890:role/ecsTaskExecutionRole",
-    "taskRoleArn": "arn:aws:iam::036346232890:role/ecsTaskRole",
+    "executionRoleArn": "arn:aws:iam::036346232890:role/cphi-ecs-task-exec-role",
+    "taskRoleArn": "arn:aws:iam::036346232890:role/cphi-ecs-task-role",
     "containerDefinitions": [
         {
             "name": "ecms-app",
-            "image": "arn:aws:ecr:us-east-1:036346232890:repository/cphi:latest",
+            "image": "036346232890.dkr.ecr.us-east-1.amazonaws.com/cphi:latest",
             "essential": true,
             "portMappings": [
                 {
