@@ -1,0 +1,77 @@
+{
+    "family": "ecms-app",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "2048",
+    "runtimePlatform": {
+        "cpuArchitecture": "ARM64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "executionRoleArn": "arn:aws:iam::036346232890:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::036346232890:role/ecsTaskRole",
+    "containerDefinitions": [
+        {
+            "name": "ecms-app",
+            "image": "arn:aws:ecr:us-east-1:036346232890:repository/cphi:latest",
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "protocol": "tcp",
+                    "name": "http"
+                },
+                {
+                    "containerPort": 8080,
+                    "protocol": "tcp",
+                    "name": "api"
+                }
+            ],
+            "environment": [
+                {
+                    "name": "MICRONAUT_ENVIRONMENTS",
+                    "value": "production"
+                },
+                {
+                    "name": "DATABASE_URL",
+                    "value": "docdb-cphi.cluster-cq5qgu02qckj.us-east-1.docdb.amazonaws.com"
+                },
+                {
+                    "name": "JAVA_OPTS",
+                    "value": "-Xmx1536m -XX:+UseG1GC -XX:+UseStringDeduplication"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "DATABASE_USERNAME",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h/username"
+                },
+                {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h/password"
+                }
+            ],
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "curl -f http://localhost:8080/health || exit 1"
+                ],
+                "interval": 30,
+                "timeout": 5,
+                "retries": 3,
+                "startPeriod": 60
+            },
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/ecms-app",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "stopTimeout": 30
+        }
+    ]
+}
