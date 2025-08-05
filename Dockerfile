@@ -2,7 +2,7 @@
 # Optimized for ECS Fargate with DocumentDB (ARM64/Graviton)
 
 # Stage 1: Build Angular Frontend
-FROM node:18-alpine AS frontend-build
+FROM --platform=linux/arm64 node:18-alpine AS frontend-build
 WORKDIR /app/client
 
 # Copy package files and install dependencies
@@ -14,7 +14,7 @@ COPY client/ ./
 RUN npm run build
 
 # Stage 2: Build Java Backend
-FROM eclipse-temurin:17-jdk-alpine AS backend-build
+FROM --platform=linux/arm64 eclipse-temurin:17-jdk-jammy AS backend-build
 WORKDIR /app/api
 
 # Copy Gradle wrapper and build files
@@ -32,10 +32,13 @@ COPY api/src/ src/
 RUN ./gradlew shadowJar --no-daemon
 
 # Stage 3: Runtime Image
-FROM eclipse-temurin:17-jre-alpine AS runtime
+FROM --platform=linux/arm64 eclipse-temurin:17-jre-jammy AS runtime
 
 # Install nginx for serving static files
-RUN apk add --no-cache nginx
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /app
@@ -49,11 +52,11 @@ COPY --from=frontend-build /app/client/dist/ /var/www/html/
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create nginx directories
-RUN mkdir -p /var/log/nginx /var/lib/nginx/tmp /run/nginx
+# Create nginx directories (Ubuntu structure)
+RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 # Create startup script with proper process management
-RUN echo '#!/bin/sh\n\
+RUN echo '#!/bin/bash\n\
 set -e\n\
 \n\
 # Function to handle shutdown\n\
@@ -82,7 +85,10 @@ wait $JAVA_PID' > /app/start.sh && \
 EXPOSE 8080 80
 
 # Install curl for health checks
-RUN apk add --no-cache curl
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
