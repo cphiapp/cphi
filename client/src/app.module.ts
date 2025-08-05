@@ -16,47 +16,29 @@ import { NgModule } from "@angular/core"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
 
-import { AccessAddFormDialogComponent } from "./app/components/element/access-add-form/access-add-form.component"
-import { AccessEditFormDialogComponent } from "./app/components/element/access-edit-form/access-edit-form.component"
 import { AppComponent } from "./app/components/page/app/app.component"
 import { AppRoutingModule } from "./app/services/auth/app-routing.module"
-import { ElementCreateFormDialogComponent } from "./app/components/element/element-create-form/element-create-form.component"
-import { ElementEditFormDialogComponent } from "./app/components/element/element-edit-form/element-edit-form.component"
-import { ElementViewDialogComponent } from "./app/components/element/element-view/element-view.component"
 import { LoginComponent } from "./app/components/page/login/login.component"
 import { MenubarComponent } from "./app/components/element/menubar/menubar.component"
-import { ProjectCreateFormDialogComponent } from "./app/components/element/project-create-form/project-create-form.component"
-import { ProjectDetailsComponent } from "./app/components/page/project-details/project-details.component"
-import { ProjectEditFormDialogComponent } from "./app/components/element/project-edit-form/project-edit-form.component"
-import { ProjectElementListComponent } from "./app/components/element/project-element-list/project-element-list.component"
-import { ProjectListComponent } from "./app/components/page/project-list/project-list.component"
-import { ProjectUserListComponent } from "./app/components/element/project-user-list/project-user-list.component"
+import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
 import { RegisterDialogComponent } from "./app/components/element/register/register.component"
-import { UserEditFormDialogComponent } from "./app/components/element/user-edit-form/user-edit-form.component"
-import { UserPasswordEditFormDialogComponent } from "./app/components/element/user-password-edit-form/user-password-edit-form.component"
 import { UserProfileDialogComponent } from "./app/components/element/user-profile/user-profile.component"
+import { UserListComponent } from './app/components/page/user-list/user-list.component';
+import { ProjectDetailsComponent } from './app/components/page/project-details/project-details.component';
+import { AppointmentDetailsComponent } from './app/components/page/appointment-details/appointment-details.component';
 
 
 @NgModule({
   declarations: [
-    AccessAddFormDialogComponent,
-    AccessEditFormDialogComponent,
     AppComponent,
-    ElementCreateFormDialogComponent,
-    ElementEditFormDialogComponent,
-    ElementViewDialogComponent,
     LoginComponent,
     MenubarComponent,
-    ProjectCreateFormDialogComponent,
-    ProjectDetailsComponent,
-    ProjectEditFormDialogComponent,
-    ProjectElementListComponent,
-    ProjectListComponent,
-    ProjectUserListComponent,
-    UserEditFormDialogComponent,
-    UserPasswordEditFormDialogComponent,
     UserProfileDialogComponent,
-    RegisterDialogComponent
+    RegisterDialogComponent,
+    AppointmentListComponent,
+    UserListComponent,
+    ProjectDetailsComponent,
+    AppointmentDetailsComponent,
   ],
   imports: [
     AppRoutingModule,

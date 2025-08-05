@@ -1,58 +1,37 @@
-import { ActivatedRoute } from "@angular/router"
-import { Component } from "@angular/core"
-import { HttpResponse, HttpErrorResponse, HttpStatusCode } from "@angular/common/http"
-
-import { ProjectAccess } from "../../../entities/response/project-response"
-import { ProjectService } from "../../../services/http/project.service"
-
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../../../services/http/project.service';
+import { ProjectAccess } from '../../../entities/response/project-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: "app-project-details",
-  templateUrl: "./project-details.component.html"
+  selector: 'app-project-details',
+  templateUrl: './project-details.component.html',
 })
 export class ProjectDetailsComponent {
+  project: ProjectAccess;
+  errorMessage: string;
 
-  private currentProject: ProjectAccess
-  private errorMessage: string
+  constructor(
+    private route: ActivatedRoute,
+    private projectService: ProjectService
+  ) {
+    const projectId = this.route.snapshot.paramMap.get('id');
+    // if (projectId) {
+    //   this.projectService.getProject(projectId).subscribe({
+    //     next: (response) => {
+    //       this.project = new ProjectAccess(response.body);
+    //     },
+    //     error: (error: HttpErrorResponse) => {
+    //       this.errorMessage = 'Failed to load project details.';
+    //     },
+    //   });
+    // }
 
-  constructor(private projectService: ProjectService,
-              private activatedRoute: ActivatedRoute) {
-    this.currentProject = new ProjectAccess()
-    this.currentProject.setProjectId(this.activatedRoute.snapshot.params["projectId"])
-    this.currentProject.setMissingProjectName()
-    this.currentProject.setMissingProjectAccess()
-
-    this.projectService.getProject(this.activatedRoute.snapshot.params["projectId"]).subscribe({
-      next: res => this.handleSuccess(res),
-      error: err => this.handleFailure(err, this.activatedRoute.snapshot.params["projectId"])
-    })
+    this.project = new ProjectAccess({
+        projectId: 'proj-123',
+        projectName: 'Dummy Project',
+        accessTypes: ['OWNER', 'ADMIN']
+    });
   }
-
-  private handleSuccess(res: HttpResponse<ProjectAccess>) {
-    this.currentProject = new ProjectAccess(res.body)
-  }
-
-  private handleFailure(err: HttpErrorResponse, projectId: string) {
-    switch(err.status) {
-      case HttpStatusCode.BadRequest:
-      case HttpStatusCode.Forbidden:
-        this.errorMessage = err.error
-        break
-      case 0:
-        this.errorMessage = "Could not reach server."
-        break
-      default:
-        this.errorMessage = "Failed to process request."
-        break
-    }
-  }
-
-  getCurrentProject() {
-    return this.currentProject
-  }
-
-  getErrorMessage() {
-    return this.errorMessage
-  }
-
 }

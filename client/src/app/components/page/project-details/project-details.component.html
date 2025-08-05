@@ -1,10 +1,14 @@
-<div class="container-fluid content menubarpush">
+<div class="container-fluid content menubarpush" *ngIf="project">
   <div class="row">
     <div class="col">
-      <h1 class="center">{{getCurrentProject().getProjectName()}}</h1>
-      <div class ="center error">{{getErrorMessage()}}</div>
-      <app-project-element-list class="component-separator" [currentProject]="this.getCurrentProject()"></app-project-element-list>
-      <app-project-user-list class="component-separator" [currentProject]="this.getCurrentProject()"></app-project-user-list>
+      <h1 class="center">Project: {{ project.getProjectName() }}</h1>
+      <div class="col-sm-12">
+        <strong>Project ID:</strong> {{ project.getProjectId() }}
+      </div>
+      <div class="col-sm-12">
+        <strong>Roles:</strong> {{ project.getAccessTypesAsReadableString() }}
+      </div>
     </div>
   </div>
 </div>
+<div class="center error" *ngIf="errorMessage">{{ errorMessage }}</div>

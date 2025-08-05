@@ -1,21 +1,18 @@
-import { HttpHeaders } from "@angular/common/http"
+import {HttpHeaders} from "@angular/common/http";
 
-export const HttpOptions = ({
-    headers: new HttpHeaders({
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-    }),
-    observe: "response" as const
-})
-
-let url = "http://localhost:8080"
 export const Endpoints = {
-    userMapping: url + "/users",
-    userEntityMapping: url + "/users/%1",
-    projectMapping: url + "/projects",
-    projectEntityMapping: url + "/projects/%1",
-    elementMapping: url + "/projects/%1/elements",
-    elementEntityMapping: url + "/projects/%1/elements/%2",
-    accessMapping: url + "/projects/%1/access",
-    accessEntityMapping: url + "/projects/%1/access/%2"
-}
+  userMapping: "api/v1/user",
+  userEntityMapping: "api/v1/user/%1",
+  appointmentMapping: "api/v1/appointment",
+  appointmentEntityMapping: "api/v1/appointment/%1",
+  projectMapping: "api/v1/project",
+  projectEntityMapping: "api/v1/project/%1",
+};
+
+export const HttpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
+  withCredentials: true,
+  observe: 'response' as const
+};

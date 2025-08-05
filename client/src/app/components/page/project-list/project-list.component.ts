@@ -10,7 +10,6 @@ import { ProjectAccess } from "../../../entities/response/project-response"
 import { ProjectEditFormDialogComponent } from "../../element/project-edit-form/project-edit-form.component"
 import { ProjectCreateFormDialogComponent } from "../../element/project-create-form/project-create-form.component"
 import { ProjectService } from "../../../services/http/project.service"
-import { RoleMapping } from "../../../services/auth/role-mapping"
 
 
 @Component({
@@ -39,10 +38,19 @@ export class ProjectListComponent {
     })
     this.filterForm.valueChanges.subscribe(() => this.filterProjects())
 
-    this.projectService.getCurrentUserProjects().subscribe({
-      next: res => this.handleGetSuccess(res),
-      error: err => this.handleGetFailure(err)
-    })
+    // this.projectService.getCurrentUserProjects().subscribe({
+    //   next: res => this.handleGetSuccess(res),
+    //   error: err => this.handleGetFailure(err)
+    // })
+    
+    this.projects = [
+      new ProjectAccess({projectId: '1', projectName: 'Project Alpha', accessTypes: ['OWNER', 'MEMBER']}),
+      new ProjectAccess({projectId: '2', projectName: 'Project Beta', accessTypes: ['MEMBER']}),
+      new ProjectAccess({projectId: '3', projectName: 'Project Gamma', accessTypes: ['ADMIN']})
+    ];
+    this.sortProjects();
+    this.filterProjects();
+    setTimeout(() => this.projectData.paginator = this.paginator);
   }
 
   private handleGetSuccess(res: HttpResponse<ProjectAccess[]>) {
@@ -76,14 +84,6 @@ export class ProjectListComponent {
 
   getFilterForm() {
     return this.filterForm
-  }
-
-  canEdit(accessTypes: string[]) {
-    return RoleMapping.getProjectEditRoles().some(accessType => accessTypes.includes(accessType))
-  }
-
-  canDelete(accessTypes: string[]) {
-    return RoleMapping.getProjectDeleteRoles().some(accessType => accessTypes.includes(accessType))
   }
 
   private sortProjects() {
