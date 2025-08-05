@@ -30,12 +30,6 @@
                 <button mat-icon-button (click)="navigateToProject(project)">
                   <mat-icon>visibility</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="canEdit(project.getAccessTypes())" (click)="openProjectEditDialog(project)">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="canDelete(project.getAccessTypes())" (click)="deleteProject(project)">
-                  <mat-icon>delete</mat-icon>
-                </button>
               </td>
             </ng-container>
 

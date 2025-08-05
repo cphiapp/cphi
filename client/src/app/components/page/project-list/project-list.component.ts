@@ -10,7 +10,6 @@ import { ProjectAccess } from "../../../entities/response/project-response"
 import { ProjectEditFormDialogComponent } from "../../element/project-edit-form/project-edit-form.component"
 import { ProjectCreateFormDialogComponent } from "../../element/project-create-form/project-create-form.component"
 import { ProjectService } from "../../../services/http/project.service"
-import { RoleMapping } from "../../../services/auth/role-mapping"
 
 
 @Component({
@@ -76,14 +75,6 @@ export class ProjectListComponent {
 
   getFilterForm() {
     return this.filterForm
-  }
-
-  canEdit(accessTypes: string[]) {
-    return RoleMapping.getProjectEditRoles().some(accessType => accessTypes.includes(accessType))
-  }
-
-  canDelete(accessTypes: string[]) {
-    return RoleMapping.getProjectDeleteRoles().some(accessType => accessTypes.includes(accessType))
   }
 
   private sortProjects() {
