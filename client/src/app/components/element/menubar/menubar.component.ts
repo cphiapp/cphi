@@ -1,8 +1,6 @@
-import { Component } from "@angular/core"
-import { MatDialog } from "@angular/material/dialog"
-
-import { AuthService } from "../../../services/auth/auth.service"
-import { UserProfileDialogComponent } from "../user-profile/user-profile.component"
+import { Component, OnInit, inject } from "@angular/core"
+import { Router } from "@angular/router"
+import { CognitoAuthService } from "../../../auth/cognito-auth.service"
 
 
 @Component({
@@ -10,25 +8,49 @@ import { UserProfileDialogComponent } from "../user-profile/user-profile.compone
   templateUrl: "./menubar.component.html",
   styleUrls: ["./menubar.component.css"]
 })
-export class MenubarComponent {
+export class MenubarComponent implements OnInit {
 
-  constructor(private authService: AuthService,
-              private dialog: MatDialog) { }
+  private cognitoAuthService = inject(CognitoAuthService)
+  private router = inject(Router)
+
+  isAuthenticated = false
+  userData$ = this.cognitoAuthService.userData$
+  userEmail = ''
+  userName = ''
+
+  constructor() { }
+
+  ngOnInit(): void {
+    // Subscribe to authentication status
+    this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated
+    })
+
+    // Subscribe to user data
+    this.userData$.subscribe(userData => {
+      if (userData) {
+        // Access user data properties safely
+        const userDataObj = userData as any
+        this.userEmail = userDataObj.email || userDataObj.preferred_username || ''
+        this.userName = userDataObj.given_name || userDataObj.name || userDataObj.preferred_username || this.userEmail.split('@')[0] || 'User'
+      }
+    })
+  }
 
   isLoggedIn() {
-    return this.authService.getLoggedIn()
+    return this.isAuthenticated
   }
 
   logout() {
-    this.authService.logout()
+    this.cognitoAuthService.logout()
   }
 
-  openUserProfileDialog() {
-    this.dialog.open(UserProfileDialogComponent).updateSize("30%")
+  navigateToAppointments() {
+    this.router.navigate(['/appointments'])
   }
 
-  getCurrentUser() {
-    return this.authService.getCurrentUser()
+  navigateToUsers() {
+    this.router.navigate(['/users'])
   }
 
 }

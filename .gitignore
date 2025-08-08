@@ -1,110 +1,376 @@
-# Terraform
-## Ignore Terraform state files
-*.tfstate
-*.tfstate.*
+# ===========================================
+# CPHI App - Comprehensive .gitignore
+# ===========================================
 
-## Ignore Terraform plan files
-*.tfplan
+# ===========================================
+# Angular Frontend
+# ===========================================
 
-## Ignore Terraform provider plugins and modules
-.terraform/
-.terraform.lock.hcl
-
-## Ignore sensitive variable files
-*.tfvars
-*.tfvars.json
-*.auto.tfvars
-*.auto.tfvars.json
-
-# Ignore crash log files
-crash.log
-crash.*.log
-
-# Ignore override files
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
-
-# Ignore Terraform CLI configuration files
-.terraformrc
-terraform.rc
-
----
-
-
-# IDE / Editor specific
-.vscode/
-.idea/
-*.swp
-*~
-
----
-
-# OS-specific
-.DS_Store
-Thumbs.db
-
----
-
-# API
-Thumbs.db
-.DS_Store
-.gradle
-build/
-target/
-out/
-.micronaut/
-.idea
-*.iml
-*.ipr
-*.iws
-.project
-.settings
-.classpath
-.factorypath
-
-
-# Client
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
+# Dependencies
+client/node_modules/
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
 
 # IDEs and editors
+client/.idea/
+client/.project
+client/.classpath
+client/.c9/
+client/*.launch
+client/.settings/
+client/*.sublime-workspace
+
+# IDE - VSCode
+client/.vscode/*
+!client/.vscode/settings.json
+!client/.vscode/tasks.json
+!client/.vscode/launch.json
+!client/.vscode/extensions.json
+
+# System Files
+client/.DS_Store
+client/Thumbs.db
+
+# Angular build outputs
+client/dist/
+client/tmp/
+client/out-tsc/
+client/bazel-out/
+
+# Angular cache
+client/.angular/cache/
+
+# Profiling files
+client/chrome-profiler-events*.json
+
+# ===========================================
+# Java Backend (Gradle)
+# ===========================================
+
+# Gradle files
+api/.gradle/
+api/build/
+api/gradle-app.setting
+api/!gradle-wrapper.jar
+api/!gradle-wrapper.properties
+
+# Java compiled class files
+api/*.class
+api/**/*.class
+
+# Log files
+api/*.log
+api/logs/
+
+# BlueJ files
+api/*.ctxt
+
+# Mobile Tools for Java (J2ME)
+api/.mtj.tmp/
+
+# Package Files
+api/*.jar
+api/*.war
+api/*.nar
+api/*.ear
+api/*.zip
+api/*.tar.gz
+api/*.rar
+
+# Virtual machine crash logs
+api/hs_err_pid*
+api/replay_pid*
+
+# IDE files
+api/.idea/
+api/*.iws
+api/*.iml
+api/*.ipr
+api/out/
+api/.vscode/
+
+# Eclipse
+api/.apt_generated
+api/.classpath
+api/.factorypath
+api/.project
+api/.settings
+api/.springBeans
+api/.sts4-cache
+api/bin/
+api/!**/src/main/**/bin/
+api/!**/src/test/**/bin/
+
+# NetBeans
+api/nbproject/private/
+api/nbbuild/
+api/dist/
+api/nbdist/
+api/.nb-gradle/
+
+# ===========================================
+# Terraform
+# ===========================================
+
+# Local .terraform directories
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+
+# .tfstate files
+terraform/*.tfstate
+terraform/*.tfstate.*
+
+# Crash log files
+terraform/crash.log
+terraform/crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data
+terraform/*.tfvars
+terraform/*.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally
+terraform/override.tf
+terraform/override.tf.json
+terraform/*_override.tf
+terraform/*_override.tf.json
+
+# Include override files you do wish to add to version control using negated pattern
+# !example_override.tf
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+terraform/*tfplan*
+
+# Ignore CLI configuration files
+terraform/.terraformrc
+terraform/terraform.rc
+
+# ===========================================
+# Docker
+# ===========================================
+
+# Docker build context
+.dockerignore
+
+# ===========================================
+# AWS & Secrets
+# ===========================================
+
+# AWS credentials
+.aws/
+aws-credentials.json
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Secrets and keys
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+credentials/
+
+# ===========================================
+# General Development
+# ===========================================
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# ===========================================
+# IDEs and Editors
+# ===========================================
+
+# IntelliJ IDEA
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+*.iws
+*.iml
+*.ipr
 
 # Visual Studio Code
-.vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
 
-# System files
-.DS_Store
-Thumbs.db
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===========================================
+# Build and Deployment
+# ===========================================
+
+# Build outputs
+build/
+dist/
+out/
+target/
+
+# Deployment artifacts
+*.zip
+*.tar.gz
+deployment-package.zip
+
+# ===========================================
+# Project Specific
+# ===========================================
+
+# Generated documentation
+docs/generated/
+
+# Test results
+test-results/
+coverage-reports/
+
+# Local configuration files
+local.properties
+application-local.yml
+application-local.properties
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# ===========================================
+# Backup files
+# ===========================================
+
+*.bak
+*.backup
+*.old
+*.orig
+
+# ===========================================
+# Archive files
+# ===========================================
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ===========================================
+# Compiled source
+# ===========================================
+
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ===========================================
+# Packages
+# ===========================================
+
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ===========================================
+# Custom Project Files
+# ===========================================
+
+# Deployment scripts with sensitive data
+deploy-secrets.sh
+production-config.sh
+
+# Local development overrides
+docker-compose.override.yml
+.env.override
+
+# Generated files from scripts
+GENERATED_*
+AUTO_*
+
+# Temporary build files
+.build/
+.tmp/
