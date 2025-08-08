@@ -19,11 +19,6 @@
             "essential": true,
             "portMappings": [
                 {
-                    "containerPort": 80,
-                    "protocol": "tcp",
-                    "name": "http"
-                },
-                {
                     "containerPort": 8080,
                     "protocol": "tcp",
                     "name": "api"
@@ -45,12 +40,12 @@
             ],
             "secrets": [
                 {
-                    "name": "DATABASE_USERNAME",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h/username"
+                    "name": "username",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
                 },
                 {
-                    "name": "DATABASE_PASSWORD",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h/password"
+                    "name": "password",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
                 }
             ],
             "healthCheck": {
@@ -66,7 +61,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "/ecs/ecms-app",
+                    "awslogs-group": "/ecs/cphi-app",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }

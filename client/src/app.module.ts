@@ -12,9 +12,13 @@ import { MatRadioModule } from "@angular/material/radio"
 import { MatSelectModule } from "@angular/material/select"
 import { MatTableModule } from "@angular/material/table"
 import { MatToolbarModule } from "@angular/material/toolbar"
+import { MatTooltipModule } from "@angular/material/tooltip"
 import { NgModule } from "@angular/core"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
+
+// Cognito Authentication
+import { CognitoAuthModule } from "./app/auth/cognito-auth.module"
 
 import { AppComponent } from "./app/components/page/app/app.component"
 import { AppointmentCreateFormDialogComponent } from "./app/components/element/appointment-create-form/appointment-create-form.component"
@@ -44,6 +48,7 @@ import { UserProfileDialogComponent } from "./app/components/element/user-profil
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
+    CognitoAuthModule,
     HttpClientModule,
     MatButtonModule,
     MatDialogModule,
@@ -56,6 +61,7 @@ import { UserProfileDialogComponent } from "./app/components/element/user-profil
     MatSelectModule,
     MatTableModule,
     MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule
   ],
   providers: [

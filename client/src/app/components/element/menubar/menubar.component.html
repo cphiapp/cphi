@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container-fluid" *ngIf="isLoggedIn()">
   <div class="row">
     <div class="col-sm-2"> <!-- Left Padding--></div>
@@ -9,8 +10,49 @@
         <div class="col-sm"></div>
         <div class="col-sm highlight" (click)="openUserProfileDialog()">{{getCurrentUser().getDisplayName()}}</div>
         <div class="col-sm highlight" (click)="logout()">Logout</div>
+=======
+<nav class="cphi-navbar" *ngIf="isLoggedIn()">
+  <div class="navbar-container">
+    
+    <!-- Left Section: Logo and Brand -->
+    <div class="navbar-brand">
+      <div class="brand-logo">
+        <mat-icon class="logo-icon">business</mat-icon>
+      </div>
+      <div class="brand-text">
+        <h1>CPHI App</h1>
+        <span class="tagline">Content Management System</span>
+>>>>>>> 0e0c41b (cognito)
       </div>
     </div>
-    <div class="col-sm-2"> <!-- Right Padding--></div>
+
+    <!-- Center Section: Navigation Links -->
+    <div class="navbar-nav">
+      <button mat-button class="nav-item" (click)="navigateToAppointments()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <mat-icon>event</mat-icon>
+        <span>Appointments</span>
+      </button>
+      <button mat-button class="nav-item" (click)="navigateToUsers()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <mat-icon>people</mat-icon>
+        <span>Users</span>
+      </button>
+    </div>
+
+    <!-- Right Section: User Info and Logout -->
+    <div class="navbar-user">
+      <div class="user-info">
+        <div class="user-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <div class="user-details">
+          <span class="user-name">{{ userName }}</span>
+          <span class="user-email">{{ userEmail }}</span>
+        </div>
+      </div>
+      <button mat-icon-button class="logout-btn" (click)="logout()" matTooltip="Sign Out">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+
   </div>
-</div>
+</nav>
