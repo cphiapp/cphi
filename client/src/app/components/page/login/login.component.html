@@ -1,26 +1,37 @@
-<div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-5">
-    <div class="login-padding"></div>
-    <h1 class="left">Client</h1>
-    Placeholder text, replace me.
-  </div>
-  <div class="col-md-4">
-    <div class="login-padding d-none d-md-block"></div>
-    <div class="content">
-      <div class ="center error">{{getErrorMessage()}}</div>
-      <form spellcheck="false" [formGroup]="getLoginForm()" class="center" (ngSubmit)="onLoginFormSubmit()">
-        <mat-form-field>
-          <mat-label>Username</mat-label>
-          <input matInput type="text" autocomplete="off" formControlName="userName">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password" autocomplete="off" formControlName="password">
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Login</button>
-        <button mat-raised-button type="button" (click)="openRegisterDialog()">Register</button>
-      </form>
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="brand-logo">
+        <mat-icon class="logo-icon">business</mat-icon>
+      </div>
+      <h1>CPHI App</h1>
+      <p>Content Management System</p>
+    </div>
+    
+    <!-- Authenticated State - Redirecting -->
+    <div *ngIf="isAuthenticated" class="auth-status">
+      <div class="welcome-section">
+        <h2>Welcome!</h2>
+        <p>Authentication successful</p>
+        <p>Redirecting to dashboard...</p>
+      </div>
+      
+      <div class="loading-spinner">
+        <mat-icon>hourglass_empty</mat-icon>
+      </div>
+    </div>
+
+    <!-- Login State -->
+    <div *ngIf="!isAuthenticated" class="login-section">
+      <div class="login-content">
+        <h2>Sign In</h2>
+        <p>Please sign in to access the system</p>
+        
+        <button mat-raised-button color="primary" class="login-button" (click)="loginWithCognito()">
+          <mat-icon>login</mat-icon>
+          Sign in with AWS Cognito
+        </button>
+      </div>
     </div>
   </div>
 </div>
