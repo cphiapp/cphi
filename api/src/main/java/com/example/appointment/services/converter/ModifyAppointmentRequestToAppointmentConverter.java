@@ -6,7 +6,6 @@ import com.example.appointment.dao.AppointmentStatusInfo;
 import com.example.common.util.DateService;
 import jakarta.inject.Singleton;
 
-
 @Singleton
 public class ModifyAppointmentRequestToAppointmentConverter {
 
@@ -17,11 +16,15 @@ public class ModifyAppointmentRequestToAppointmentConverter {
     }
 
     public Appointment convert(Appointment appointment, ModifyAppointmentRequest request) {
+<<<<<<< HEAD
         appointment.setAppointmentStatus(request.status());
         appointment.setStatusLastModified(dateService.getNow().toString());
         appointment.setStatusChangeComment(request.comment());
         return appointment;
         //return new Appointment(appointment.id(), appointment.userId(), appointment.appointmentTime(), convertStatusInfo(request));
+=======
+        return new Appointment(appointment.id(), appointment.userId(), appointment.appointmentTime(), convertStatusInfo(request));
+>>>>>>> f67e42c (MongoDb implementation)
     }
 
     private AppointmentStatusInfo convertStatusInfo(ModifyAppointmentRequest request) {

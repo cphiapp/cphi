@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 }
 
-dependencies {/*
+dependencies {
     annotationProcessor(mn.micronaut.data.document.processor)
     annotationProcessor(mn.micronaut.http.validation)
     annotationProcessor(mn.micronaut.security.annotations)
@@ -26,33 +26,11 @@ dependencies {/*
     runtimeOnly(mn.micronaut.http.client)
     runtimeOnly(mn.mongo.driver)
     runtimeOnly(mn.snakeyaml)
-    runtimeOnly("org.mongodb:mongodb-driver-sync")
+    runtimeOnly("org.mongodb:mongodb-driver-sync:4.11.0")
     testImplementation(mn.micronaut.http.client)
     testImplementation(mn.assertj.core)
     testImplementation(mn.mockito.core)
     testImplementation(mn.mockito.junit.jupiter)
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.12.1")*/
-    annotationProcessor("io.micronaut:micronaut-http-validation:4.2.4")
-    annotationProcessor("io.micronaut.data:micronaut-data-processor:4.3.1")
-    annotationProcessor("io.micronaut.serde:micronaut-serde-processor:2.4.0")
-    implementation("commons-codec:commons-codec:1.16.0")
-    implementation("io.micrometer:context-propagation:1.0.6")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa:4.3.1")
-    implementation("io.micronaut.reactor:micronaut-reactor:3.1.0")
-    implementation("io.micronaut.security:micronaut-security:4.4.0")
-    implementation("io.micronaut.serde:micronaut-serde-jackson:2.4.0")
-    implementation("io.micronaut.sql:micronaut-hibernate-jpa:5.2.0")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari:5.2.0")
-    implementation("io.micronaut.validation:micronaut-validation:4.2.0")
-    implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
-    implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
-    implementation("com.h2database:h2:2.2.224")
-    runtimeOnly("ch.qos.logback:logback-classic:1.4.13")
-    runtimeOnly("com.h2database:h2:2.2.224")
-    runtimeOnly("org.yaml:snakeyaml:2.0")
-    testImplementation("org.assertj:assertj-core:3.22.0")
-    testImplementation("org.mockito:mockito-core:4.5.1");
-    testImplementation("org.mockito:mockito-junit-jupiter:4.5.1");
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.12.1")
 }
 
