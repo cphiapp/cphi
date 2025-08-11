@@ -1,6 +1,5 @@
 package com.example.appointment.services.converter;
 
-import com.example.appointment.controller.dto.response.AppointmentStatusInfoResponse;
 import com.example.appointment.controller.dto.response.ModifyAppointmentResponse;
 import com.example.appointment.dao.Appointment;
 import jakarta.inject.Singleton;
@@ -15,8 +14,6 @@ public class AppointmentToModifyAppointmentResponseConverter {
     }
 
     public ModifyAppointmentResponse convert(Appointment appointment) {
-        var appointmentStatusInfo = new AppointmentStatusInfoResponse(appointment.getAppointmentStatus(), appointment.getStatusLastModified(), appointment.getStatusChangeComment());
-        return new ModifyAppointmentResponse(appointmentStatusInfo);
-        //return new ModifyAppointmentResponse(converter.convert(appointment.statusInfo()));
+        return new ModifyAppointmentResponse(converter.convert(appointment.statusInfo()));
     }
 }

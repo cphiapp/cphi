@@ -6,4 +6,5 @@ import jakarta.annotation.Nullable;
 
 @Serdeable
 public record ModifyAppointmentRequest(@ValidAppointmentStatus String status, @Nullable String comment) {
+
 }
