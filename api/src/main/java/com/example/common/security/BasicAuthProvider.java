@@ -20,14 +20,14 @@ public class BasicAuthProvider implements AuthenticationProvider<HttpRequest<?>>
     private final PasswordEncoder passwordEncoder;
 
     public BasicAuthProvider(DatabaseUserReader databaseuserReader,
-                             PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         this.databaseuserReader = databaseuserReader;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Publisher<AuthenticationResponse> authenticate(@Nullable HttpRequest<?> httpRequest,
-                                                          AuthenticationRequest<?, ?> authenticationRequest) {
+            AuthenticationRequest<?, ?> authenticationRequest) {
         return Flux.create(emitter -> {
             User user;
             try {

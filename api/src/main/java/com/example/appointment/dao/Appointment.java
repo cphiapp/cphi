@@ -1,11 +1,9 @@
 package com.example.appointment.dao;
 
-import io.micronaut.data.annotation.MappedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 
 /*
 @MappedEntity

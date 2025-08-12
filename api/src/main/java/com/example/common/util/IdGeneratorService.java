@@ -1,7 +1,6 @@
 package com.example.common.util;
 
 import jakarta.inject.Singleton;
-
 import java.util.UUID;
 
 

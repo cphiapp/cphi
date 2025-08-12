@@ -1,8 +1,8 @@
 package com.example.user.controller.services;
 
 import com.example.common.db.DatabaseUserReader;
-import com.example.user.dao.User;
 import com.example.user.controller.dto.request.CreateUserRequest;
+import com.example.user.dao.User;
 import com.example.user.service.converter.CreateUserRequestToUserConverter;
 import com.example.user.service.db.DatabaseUserWriter;
 import jakarta.inject.Singleton;
@@ -16,8 +16,8 @@ public class UsersService {
 
 
     public UsersService(CreateUserRequestToUserConverter converter,
-                        DatabaseUserReader databaseUserReader,
-                        DatabaseUserWriter databaseUserWriter) {
+            DatabaseUserReader databaseUserReader,
+            DatabaseUserWriter databaseUserWriter) {
         this.converter = converter;
         this.databaseUserReader = databaseUserReader;
         this.databaseUserWriter = databaseUserWriter;

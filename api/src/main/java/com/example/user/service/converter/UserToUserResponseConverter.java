@@ -1,7 +1,7 @@
 package com.example.user.service.converter;
 
-import com.example.user.dao.User;
 import com.example.user.controller.dto.response.UserResponse;
+import com.example.user.dao.User;
 import jakarta.inject.Singleton;
 
 @Singleton

@@ -3,8 +3,8 @@ package com.example.user.service.converter;
 import com.example.common.security.PasswordEncoder;
 import com.example.common.security.Roles;
 import com.example.common.util.IdGeneratorService;
-import com.example.user.dao.User;
 import com.example.user.controller.dto.request.CreateUserRequest;
+import com.example.user.dao.User;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -14,7 +14,7 @@ public class CreateUserRequestToUserConverter {
     private final PasswordEncoder passwordEncoder;
 
     public CreateUserRequestToUserConverter(IdGeneratorService idGeneratorService,
-                                            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder) {
         this.idGeneratorService = idGeneratorService;
         this.passwordEncoder = passwordEncoder;
     }

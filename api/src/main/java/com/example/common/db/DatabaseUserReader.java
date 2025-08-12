@@ -4,7 +4,6 @@ import com.example.common.exception.EntityNotFoundException;
 import com.example.user.dao.User;
 import com.example.user.dao.UserRepository;
 import jakarta.inject.Singleton;
-import java.util.List;
 
 @Singleton
 public class DatabaseUserReader {

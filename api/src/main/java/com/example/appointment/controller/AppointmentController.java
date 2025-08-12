@@ -1,5 +1,7 @@
 package com.example.appointment.controller;
 
+import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
+
 import com.example.appointment.controller.dto.request.ModifyAppointmentRequest;
 import com.example.appointment.controller.dto.response.ModifyAppointmentResponse;
 import com.example.appointment.controller.services.AppointmentService;
@@ -11,8 +13,6 @@ import io.micronaut.http.annotation.Put;
 import io.micronaut.security.annotation.Secured;
 import jakarta.validation.Valid;
 
-import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
-
 @Controller("/api/v1/appointments/{appointmentId}")
 @Secured(IS_AUTHENTICATED)
 public class AppointmentController {
@@ -21,7 +21,7 @@ public class AppointmentController {
     private final AppointmentToModifyAppointmentResponseConverter converter;
 
     public AppointmentController(AppointmentService appointmentService,
-                                 AppointmentToModifyAppointmentResponseConverter converter) {
+            AppointmentToModifyAppointmentResponseConverter converter) {
         this.appointmentService = appointmentService;
         this.converter = converter;
     }

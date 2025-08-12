@@ -32,7 +32,7 @@ public class BasicAuthExceptionHandler extends DefaultAuthorizationExceptionHand
 
     @Override
     protected MutableHttpResponse<?> httpResponseWithStatus(HttpRequest request,
-                                                            AuthorizationException e) {
+            AuthorizationException e) {
         if (e.isForbidden()) {
             return HttpResponse.status(FORBIDDEN);
         }

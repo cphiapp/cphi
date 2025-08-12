@@ -1,13 +1,12 @@
 package com.example.appointment.services.converter;
 
+import static com.example.appointment.AppointmentStatus.SCHEDULED;
+
 import com.example.appointment.controller.dto.request.CreateAppointmentRequest;
 import com.example.appointment.dao.Appointment;
 import com.example.appointment.dao.AppointmentStatusInfo;
-import com.example.common.util.DateService;
 import com.example.common.util.IdGeneratorService;
 import jakarta.inject.Singleton;
-
-import static com.example.appointment.AppointmentStatus.SCHEDULED;
 
 @Singleton
 public class CreateAppointmentRequestToAppointmentConverter {

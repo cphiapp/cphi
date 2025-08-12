@@ -4,15 +4,17 @@ import static io.micronaut.http.HttpResponse.ok;
 import static io.micronaut.security.rules.SecurityRule.IS_ANONYMOUS;
 import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
 
-import com.example.user.dao.User;
 import com.example.user.controller.dto.request.CreateUserRequest;
 import com.example.user.controller.dto.response.UserResponse;
 import com.example.user.controller.services.UsersService;
+import com.example.user.dao.User;
 import com.example.user.service.converter.UserToUserResponseConverter;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.*;
+import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
-
 import java.security.Principal;
 
 @Controller("/api/v1/users")
@@ -23,7 +25,7 @@ public class UsersController {
     private final UserToUserResponseConverter converter;
 
     public UsersController(UsersService userService,
-                          UserToUserResponseConverter converter) {
+            UserToUserResponseConverter converter) {
         this.userService = userService;
         this.converter = converter;
     }

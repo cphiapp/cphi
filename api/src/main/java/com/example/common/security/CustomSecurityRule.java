@@ -1,6 +1,5 @@
 package com.example.common.security;
 
-
 //Basic implementation for the AWS user management security rule.
 //For development purposes we are using basic auth and keeping this disabled.
 
@@ -22,4 +21,5 @@ public class CustomSecurityRule { /*implements SecurityRule<HttpRequest<?>> {
     public int getOrder() {
         return HIGHEST_PRECEDENCE;
     }*/
+
 }

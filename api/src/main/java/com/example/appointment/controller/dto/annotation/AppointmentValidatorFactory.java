@@ -1,20 +1,14 @@
 package com.example.appointment.controller.dto.annotation;
 
-import static java.time.ZoneOffset.UTC;
-
 import com.example.appointment.AppointmentStatus;
 import com.example.common.util.DateService;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.validation.validator.constraints.ConstraintValidator;
 import jakarta.inject.Singleton;
-
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import java.util.Date;
-import java.util.Locale;
 
 @Factory
 class AppointmentValidatorFactory {

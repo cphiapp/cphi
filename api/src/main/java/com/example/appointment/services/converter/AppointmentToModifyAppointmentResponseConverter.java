@@ -15,7 +15,8 @@ public class AppointmentToModifyAppointmentResponseConverter {
     }
 
     public ModifyAppointmentResponse convert(Appointment appointment) {
-        var appointmentStatusInfo = new AppointmentStatusInfoResponse(appointment.getAppointmentStatus(), appointment.getStatusLastModified(), appointment.getStatusChangeComment());
+        var appointmentStatusInfo = new AppointmentStatusInfoResponse(appointment.getAppointmentStatus(), appointment.getStatusLastModified(),
+                appointment.getStatusChangeComment());
         return new ModifyAppointmentResponse(appointmentStatusInfo);
         //return new ModifyAppointmentResponse(converter.convert(appointment.statusInfo()));
     }

@@ -9,7 +9,7 @@ import jakarta.inject.Singleton;
 @Factory
 class UserValidatorFactory {
 
-    private DatabaseUserReader databaseUserReader;
+    private final DatabaseUserReader databaseUserReader;
 
     public UserValidatorFactory(DatabaseUserReader databaseUserReader) {
         this.databaseUserReader = databaseUserReader;

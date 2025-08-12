@@ -8,4 +8,5 @@ import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable
 public record GetAppointmentResponse(String appointmentId, String appointmentTime, AppointmentStatusInfoResponse statusInfo) {
+
 }

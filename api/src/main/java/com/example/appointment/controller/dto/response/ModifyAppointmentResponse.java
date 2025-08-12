@@ -5,4 +5,5 @@ import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable
 public record ModifyAppointmentResponse(@JsonUnwrapped AppointmentStatusInfoResponse statusInfo) {
+
 }
