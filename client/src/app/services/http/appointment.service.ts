@@ -6,6 +6,8 @@ import { Endpoints, HttpOptions } from "./http-config"
 import { Appointment } from "../../entities/response/appointment-response"
 import { CreateAppointmentRequest } from "../../entities/request/create-appointment-request"
 import { ModifyAppointmentRequest } from "../../entities/request/modify-appointment-request"
+import { AppointmentStatus } from "../../entities/response/appointment-status-response"
+
 
 @Injectable({
   providedIn: "root"
@@ -22,7 +24,7 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(Endpoints.appointmentMapping, HttpOptions)
   }
 
-  modifyAppointment(appointmentId: string, modifyAppointmentRequest: ModifyAppointmentRequest) {
-    return this.http.put(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), modifyAppointmentRequest, HttpOptions)
+  modifyAppointment(appointmentId: string, modifyAppointmentRequest: ModifyAppointmentRequest): Observable<HttpResponse<AppointmentStatus>> {
+    return this.http.put<AppointmentStatus>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), modifyAppointmentRequest, HttpOptions)
   }
 }

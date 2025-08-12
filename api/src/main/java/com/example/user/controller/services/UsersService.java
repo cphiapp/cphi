@@ -1,8 +1,8 @@
-package com.example.user.service;
+package com.example.user.controller.services;
 
 import com.example.common.db.DatabaseUserReader;
 import com.example.user.dao.User;
-import com.example.user.dto.request.CreateUserRequest;
+import com.example.user.controller.dto.request.CreateUserRequest;
 import com.example.user.service.converter.CreateUserRequestToUserConverter;
 import com.example.user.service.db.DatabaseUserWriter;
 import jakarta.inject.Singleton;

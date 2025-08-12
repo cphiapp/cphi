@@ -1,6 +1,10 @@
 package com.example.appointment.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.micronaut.serde.annotation.Serdeable;
 import java.util.List;
 
-public record GetAppointmentsResponse(List<GetAppointmentResponse> appointments, int page, int totalCount) {
+@Serdeable
+public record GetAppointmentsResponse(List<GetAppointmentResponse> appointments /*, int page, int totalCount*/) {
 }

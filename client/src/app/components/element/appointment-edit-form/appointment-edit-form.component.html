@@ -1,0 +1,24 @@
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col">
+            <h1 class="center">Edit Appointment</h1>
+            <div class ="center error">{{getErrorMessage()}}</div>
+            <form spellcheck="false" class="center" [formGroup]="getAppointmentEditForm()" (ngSubmit)="onAppointmentEditFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option value="SCHEDULED">Scheduled</mat-option>
+                        <mat-option value="CANCELLED">Cancelled</mat-option>
+                        <mat-option value="DONE">Done</mat-option>
+                    </mat-select>
+                </mat-form-field>                
+                <mat-form-field>
+                    <mat-label>Comment</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="comment">
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit">Edit</button>
+            </form>
+        </div>
+    </div>
+</div>

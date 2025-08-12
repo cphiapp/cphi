@@ -43,6 +43,7 @@ dependencies {/*
     implementation("io.micronaut.serde:micronaut-serde-jackson:2.4.0")
     implementation("io.micronaut.sql:micronaut-hibernate-jpa:5.2.0")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari:5.2.0")
+    implementation("io.micronaut.validation:micronaut-validation:4.2.0")
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.1")
     implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
     implementation("com.h2database:h2:2.2.224")

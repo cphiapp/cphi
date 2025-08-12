@@ -1,21 +1,28 @@
+import { AppointmentStatus } from "./appointment-status-response";
+
 export class Appointment {
-    public id: string;
+    public appointmentId: string;
     public appointmentTime: string;
-    public statusInfo: { status: string };
+    public statusInfo: AppointmentStatus;
 
     constructor(init?: Partial<Appointment>) {
         Object.assign(this, init);
+        this.statusInfo = new AppointmentStatus(this.statusInfo)
     }
 
-    getId() {
-        return this.id;
+    getAppointmentId() {
+        return this.appointmentId;
     }
 
     getAppointmentTime() {
         return this.appointmentTime;
     }
 
-    getStatus() {
-        return this.statusInfo.status;
+    getAppointmentStatusInfo() {
+        return this.statusInfo;
+    }
+
+    setAppointmentStatusInfo(statusInfo: AppointmentStatus) {
+        this.statusInfo = statusInfo
     }
 }

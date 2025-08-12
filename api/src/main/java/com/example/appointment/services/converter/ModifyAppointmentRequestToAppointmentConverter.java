@@ -18,13 +18,13 @@ public class ModifyAppointmentRequestToAppointmentConverter {
 
     public Appointment convert(Appointment appointment, ModifyAppointmentRequest request) {
         appointment.setAppointmentStatus(request.status());
-        appointment.setStatusLastModified(dateService.getNow());
+        appointment.setStatusLastModified(dateService.getNow().toString());
         appointment.setStatusChangeComment(request.comment());
         return appointment;
         //return new Appointment(appointment.id(), appointment.userId(), appointment.appointmentTime(), convertStatusInfo(request));
     }
 
     private AppointmentStatusInfo convertStatusInfo(ModifyAppointmentRequest request) {
-        return new AppointmentStatusInfo(request.status(), dateService.getNow(), request.comment());
+        return new AppointmentStatusInfo(request.status(), dateService.getNow().toString(), request.comment());
     }
 }

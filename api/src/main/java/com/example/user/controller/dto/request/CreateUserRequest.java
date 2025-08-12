@@ -1,6 +1,6 @@
-package com.example.user.dto.request;
+package com.example.user.controller.dto.request;
 
-import com.example.user.dto.annotation.UniqueUserName;
+import com.example.user.controller.dto.annotation.UniqueUserName;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
 

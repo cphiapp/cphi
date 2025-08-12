@@ -1,17 +1,10 @@
-package com.example.user.dto.annotation;
+package com.example.user.controller.dto.annotation;
 
-import com.example.appointment.AppointmentStatus;
-import com.example.appointment.controller.dto.annotation.ValidTimeStampFormat;
 import com.example.common.db.DatabaseUserReader;
 import com.example.common.exception.EntityNotFoundException;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.validation.validator.constraints.ConstraintValidator;
 import jakarta.inject.Singleton;
-
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
 
 @Factory
 class UserValidatorFactory {

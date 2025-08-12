@@ -3,6 +3,7 @@ export class User {
     public userId: string
     public userName: string
     public displayName: string
+    public roleName: string
 
     constructor(init: Partial<User>) {
         Object.assign(this, init)

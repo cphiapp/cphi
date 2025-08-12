@@ -9,6 +9,7 @@ import io.micronaut.data.model.Page;
 import jakarta.inject.Singleton;
 
 import java.security.Principal;
+import java.util.List;
 
 @Singleton
 public class AppointmentsService {
@@ -30,7 +31,7 @@ public class AppointmentsService {
         return databaseAppointmentWriter.createAppointment(appointment);
     }
 
-    public Page<Appointment> getAppointments(Principal principal, int page) {
+    public List<Appointment> getAppointments(Principal principal, int page) {
         return databaseAppointmentReader.getAppointmentsOfUser(principal.getName(), page);
     }
 }

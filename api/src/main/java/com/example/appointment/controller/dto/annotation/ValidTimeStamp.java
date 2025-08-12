@@ -1,4 +1,4 @@
-package com.example.user.dto.annotation;
+package com.example.appointment.controller.dto.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -15,9 +15,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, PARAMETER})
 @Documented
 @Constraint(validatedBy = {})
-public @interface UniqueUserName {
+public @interface ValidTimeStamp {
 
-    String message() default "Username is already taken ({validatedValue})";
+    String message() default "Invalid timestamp format ({validatedValue})";
 
     Class<?>[] groups() default {};
 

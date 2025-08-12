@@ -1,11 +1,10 @@
 package com.example.user.service.converter;
 
 import com.example.common.security.PasswordEncoder;
+import com.example.common.security.Roles;
 import com.example.common.util.IdGeneratorService;
 import com.example.user.dao.User;
-import com.example.user.dao.UserRepository;
-import com.example.user.dto.request.CreateUserRequest;
-import com.example.user.dto.response.UserResponse;
+import com.example.user.controller.dto.request.CreateUserRequest;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -26,6 +25,7 @@ public class CreateUserRequestToUserConverter {
         user.setUserName(request.userName());
         user.setDisplayName(request.displayName());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRoleName(Roles.USER.toString());
         return user;
     }
 }

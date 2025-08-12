@@ -5,6 +5,9 @@ micronaut:
     cors:
       enabled: true
     port: 8080
+  serde:
+    serialization:
+      inclusion: ALWAYS
 
 pagination:
   default-count: 10
@@ -12,15 +15,10 @@ pagination:
 #mongodb:
 #  uri: ${MONGODB_URI}
 
-  server:
-    cors:
-      enabled: true
-    port: 8080
-
 datasources:
   default:
     dialect: H2
-    url: jdbc:h2:file:~;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: admin
     password: password
     driverClassName: org.h2.Driver
@@ -30,6 +28,6 @@ jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: update
+          auto: create
           charset_name: UTF-8
         show_sql: true

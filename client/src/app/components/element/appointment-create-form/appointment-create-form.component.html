@@ -1,0 +1,15 @@
+<div class="container-fluid content">
+    <div class="row">
+        <div class="col">
+            <h1 class="center">Create Appointment</h1>
+            <div class ="center error">{{getErrorMessage()}}</div>
+            <form spellcheck="false" class="center" [formGroup]="getAppointmentCreateForm()" (ngSubmit)="onAppointmentCreateFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="appointmentTime">
+                </mat-form-field>
+                <button mat-raised-button color="primary" type="submit">Create Appointment</button>
+            </form>
+        </div>
+    </div>
+</div>

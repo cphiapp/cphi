@@ -40,8 +40,4 @@ export class AuthService {
     this.router.navigate([""])
   }
 
-  updateUser(displayName: string, imageLink: string ) {
-    this.currentUser.setDisplayName(displayName)
-  }
-
 }

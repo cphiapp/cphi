@@ -17,28 +17,28 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { ReactiveFormsModule } from "@angular/forms"
 
 import { AppComponent } from "./app/components/page/app/app.component"
+import { AppointmentCreateFormDialogComponent } from "./app/components/element/appointment-create-form/appointment-create-form.component"
+import { AppointmentEditFormDialogComponent } from "./app/components/element/appointment-edit-form/appointment-edit-form.component"
+import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
 import { AppRoutingModule } from "./app/services/auth/app-routing.module"
 import { LoginComponent } from "./app/components/page/login/login.component"
 import { MenubarComponent } from "./app/components/element/menubar/menubar.component"
-import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
 import { RegisterDialogComponent } from "./app/components/element/register/register.component"
 import { UserProfileDialogComponent } from "./app/components/element/user-profile/user-profile.component"
-import { UserListComponent } from './app/components/page/user-list/user-list.component';
-import { ProjectDetailsComponent } from './app/components/page/project-details/project-details.component';
-import { AppointmentDetailsComponent } from './app/components/page/appointment-details/appointment-details.component';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    AppointmentCreateFormDialogComponent,
+    AppointmentEditFormDialogComponent,
+    AppointmentListComponent,
     LoginComponent,
     MenubarComponent,
     UserProfileDialogComponent,
-    RegisterDialogComponent,
-    AppointmentListComponent,
-    UserListComponent,
-    ProjectDetailsComponent,
-    AppointmentDetailsComponent,
+    RegisterDialogComponent
   ],
   imports: [
     AppRoutingModule,

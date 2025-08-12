@@ -13,17 +13,13 @@ export class AuthGuard {
               private router: Router) {}
 
   canActivate() {
-    // OLD CODE - Temporarily commented out for UI development
-    // if (this.authService.getLoggedIn()) {
-    //   return true
-    // }
-    // else {
-    //   this.router.navigate(["/login"])
-    //   return false
-    // }
-
-    // NEW CODE - Always allow access
-    return true;
+    if (this.authService.getLoggedIn()) {
+       return true
+    }
+    else {
+      this.router.navigate(["/login"])
+      return false
+    }
   }
 
 }

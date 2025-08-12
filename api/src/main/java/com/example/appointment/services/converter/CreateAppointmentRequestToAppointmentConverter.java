@@ -23,7 +23,7 @@ public class CreateAppointmentRequestToAppointmentConverter {
         var appointment = new Appointment();
         appointment.setAppointmentId(id);
         appointment.setUserId(userId);
-        appointment.setAppointmentTime(appointment.getAppointmentTime());
+        appointment.setAppointmentTime(request.appointmentTime());
         appointment.setAppointmentStatus(SCHEDULED.toString());
         return appointment;
         //return new Appointment(id, userId, request.appointmentTime(), createDefaultStatusInfo());

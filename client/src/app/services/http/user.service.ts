@@ -25,9 +25,4 @@ export class UserService {
     this.authTokenService.setCredential(userName, password)
     return this.http.get<User>(Endpoints.userMapping, HttpOptions)
   }
-
-  searchUser(userName: string) {
-    return this.http.get<User[]>(Endpoints.userEntityMapping.replace("%1", userName), HttpOptions)
-  }
-
 }

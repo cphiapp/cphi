@@ -7,7 +7,10 @@ import com.example.appointment.dao.Appointment;
 import com.example.appointment.dao.AppointmentStatusInfo;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Slice;
+import jakarta.inject.Singleton;
+import java.util.List;
 
+@Singleton
 public class AppointmentsToGetAppointmentResponseConverter {
 
     private final AppointmentStatusInfoToAppointmentStatusInfoResponseConverter converter;
@@ -16,8 +19,9 @@ public class AppointmentsToGetAppointmentResponseConverter {
         this.converter = converter;
     }
 
-    public GetAppointmentsResponse convert(Page<Appointment> appointments) {
-        return new GetAppointmentsResponse(appointments.getContent().stream().map(this::convertSingle).toList(), Long.valueOf(appointments.getTotalSize()).intValue(), appointments.getNumberOfElements());
+    public GetAppointmentsResponse convert(List<Appointment> appointments) {
+        return new GetAppointmentsResponse(appointments.stream().map(this::convertSingle).toList()/*, -1, -1*/);
+        //return new GetAppointmentsResponse(appointments.getContent().stream().map(this::convertSingle).toList(), Long.valueOf(appointments.getTotalSize()).intValue(), appointments.getNumberOfElements());
     }
 
     private GetAppointmentResponse convertSingle(Appointment appointment) {

@@ -3,11 +3,11 @@
     <div class="col-sm-2"> <!-- Left Padding--></div>
     <div class="col-sm-8 content menubar">
       <div class="row">
-        <div class="col-sm">System</div>
+        <div class="col-sm">CPHI Client</div>
           <div class="col-sm highlight" routerLink="/appointments">Appointments</div>
         <div class="col-sm"></div>
         <div class="col-sm"></div>
-        <div class="col-sm highlight" (click)="openUserProfileDialog()"> <img src="./favicon.ico"> {{getCurrentUser().getDisplayName()}}</div>
+        <div class="col-sm highlight" (click)="openUserProfileDialog()">{{getCurrentUser().getDisplayName()}}</div>
         <div class="col-sm highlight" (click)="logout()">Logout</div>
       </div>
     </div>
