@@ -27,4 +27,8 @@ export class AppointmentService {
   modifyAppointment(appointmentId: string, modifyAppointmentRequest: ModifyAppointmentRequest): Observable<HttpResponse<AppointmentStatus>> {
     return this.http.put<AppointmentStatus>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), modifyAppointmentRequest, HttpOptions)
   }
+
+  searchAppointments(appointmentId: string): Observable<HttpResponse<Appointment[]>> {
+    return this.http.get<Appointment[]>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), HttpOptions)
+  }
 }

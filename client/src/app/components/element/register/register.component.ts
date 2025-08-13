@@ -84,7 +84,6 @@ export class RegisterDialogComponent {
   }
 
   private handleFailure(err: HttpErrorResponse) {
-    console.log(err.message)
     switch(err.status) {
       case HttpStatusCode.BadRequest:
         this.errorMessage = err.error

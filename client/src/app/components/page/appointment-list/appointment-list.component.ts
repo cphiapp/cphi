@@ -1,15 +1,15 @@
 import { Component, ViewChild } from "@angular/core"
-import { FormBuilder, FormGroup } from "@angular/forms"
+import { FormBuilder, FormGroup, Validators } from "@angular/forms"
 import { HttpResponse, HttpErrorResponse } from "@angular/common/http"
 import { MatDialog } from "@angular/material/dialog"
 import { MatPaginator } from "@angular/material/paginator"
 import { MatTableDataSource } from "@angular/material/table"
-import { Router } from "@angular/router"
 
 import { Appointment } from "../../../entities/response/appointment-response"
 import { AppointmentEditFormDialogComponent } from "../../element/appointment-edit-form/appointment-edit-form.component"
 import { AppointmentCreateFormDialogComponent } from "../../element/appointment-create-form/appointment-create-form.component"
 import { AppointmentService } from "../../../services/http/appointment.service"
+import { AuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -24,28 +24,33 @@ export class AppointmentListComponent {
   private errorMessage: string
   private appointments : Appointment[]
   private appointmentsData: MatTableDataSource<Appointment>
-  private filterForm: FormGroup
+  private searchForm: FormGroup
 
-  constructor(private dialog: MatDialog,
-              private appointmentService: AppointmentService) {
+  constructor(private authService: AuthService,
+              private dialog: MatDialog,
+              private appointmentService: AppointmentService,
+              private formBuilder: FormBuilder) {
     this.errorMessage = ""
     this.appointments = []
     this.appointmentsData = new MatTableDataSource(this.appointments)
-
-    this.appointmentService.getCurrentUserAppointments().subscribe({
-      next: res => this.handleGetSuccess(res),
-      error: err => this.handleGetFailure(err)
+    this.searchForm = this.formBuilder.nonNullable.group({
+      pattern: ["", Validators.minLength(4)]
     })
-    
-    this.appointmentsData.paginator = this.paginator;
+
+    if(!authService.isAdmin()) {
+      this.appointmentService.getCurrentUserAppointments().subscribe({
+        next: res => this.handleInitGetSuccess(res),
+        error: err => this.handleInitGetFailure(err)
+      })
+    }
   }
 
-  private handleGetSuccess(res: HttpResponse<Appointment[]>) {
+  private handleInitGetSuccess(res: HttpResponse<Appointment[]>) {
     this.appointments = res.body.map(appointment => new Appointment(appointment))
     this.refreshAppointments()
   }
 
-  private handleGetFailure(err: HttpErrorResponse) {
+  private handleInitGetFailure(err: HttpErrorResponse) {
     switch(err.status) {
       case 0:
         this.errorMessage = "Could not reach server."
@@ -68,11 +73,19 @@ export class AppointmentListComponent {
     return this.appointmentsData
   }
 
-  getFilterForm() {
-    return this.filterForm
+  getSearchForm() {
+    return this.searchForm
   }
 
-  refreshAppointments() {
+  isAdmin() {
+    return this.authService.isAdmin()
+  }
+
+  isEditable(appointment: Appointment) {
+    return this.isAdmin() || appointment.getAppointmentStatusInfo().getStatus() == "SCHEDULED"
+  }
+
+  private refreshAppointments() {
     let navigateTo = this.paginator.pageIndex
     this.appointmentsData = new MatTableDataSource(this.appointments)
     this.appointmentsData.paginator = this.paginator    
@@ -86,7 +99,6 @@ export class AppointmentListComponent {
       .updateSize("30%")
       .afterClosed().subscribe(appointment => {
         if(appointment != null) {
-          console.log(appointment)
           this.appointments.push(appointment)
           this.refreshAppointments()
         }
@@ -101,6 +113,13 @@ export class AppointmentListComponent {
           appointment.setAppointmentStatusInfo(appointmentStatus)
         }
       })
+  }
+
+  searchAppointments() {
+    this.appointmentService.searchAppointments(this.searchForm.controls["pattern"].value.toUpperCase()).subscribe({
+      next: res => this.handleInitGetSuccess(res),
+      error: err => this.handleInitGetFailure(err)
+    })
   }
 
 }

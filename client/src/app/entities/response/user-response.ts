@@ -21,7 +21,7 @@ export class User {
         return this.displayName
     }
 
-    setDisplayName(displayName: string) {
-        this.displayName = displayName
+    getRoleName() {
+        return this.roleName
     }
 }

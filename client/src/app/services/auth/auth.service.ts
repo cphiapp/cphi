@@ -23,6 +23,10 @@ export class AuthService {
     return this.isLoggedIn
   }
 
+  isAdmin() {
+    return this.currentUser.getRoleName() == "ADMIN"
+  }
+
   getCurrentUser(): User {
     return this.currentUser
   }

@@ -7,6 +7,7 @@ import { Appointment } from "../../../entities/response/appointment-response"
 import { AppointmentService } from "../../../services/http/appointment.service"
 import { ModifyAppointmentRequest } from "../../../entities/request/modify-appointment-request"
 import { AppointmentStatus } from "../../../entities/response/appointment-status-response"
+import { AuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -18,6 +19,7 @@ export class AppointmentEditFormDialogComponent {
   private appointmentEditForm: FormGroup
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: {appointment: Appointment},
+              private authService: AuthService,
               private dialog: MatDialogRef<AppointmentEditFormDialogComponent>,
               private appointmentService: AppointmentService,
               private formBuilder: FormBuilder) {
@@ -34,6 +36,10 @@ export class AppointmentEditFormDialogComponent {
 
   getAppointmentEditForm() {
     return this.appointmentEditForm
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin()
   }
 
   onAppointmentEditFormSubmit() {

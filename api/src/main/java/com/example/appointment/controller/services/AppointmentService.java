@@ -6,6 +6,7 @@ import com.example.appointment.services.converter.ModifyAppointmentRequestToAppo
 import com.example.appointment.services.db.DatabaseAppointmentWriter;
 import com.example.common.db.DatabaseAppointmentReader;
 import jakarta.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class AppointmentService {
@@ -26,5 +27,9 @@ public class AppointmentService {
         var originalAppointment = databaseAppointmentReader.getAppointmentById(appointmentId);
         var modifiedAppointment = converter.convert(originalAppointment, request);
         return databaseAppointmentWriter.modifyAppointment(modifiedAppointment);
+    }
+
+    public List<Appointment> getAppointments(String appointmentId) {
+        return databaseAppointmentReader.getAppointmentsWithId(appointmentId);
     }
 }

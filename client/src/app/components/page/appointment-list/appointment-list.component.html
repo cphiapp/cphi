@@ -34,7 +34,7 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let appointment">
-                <button mat-icon-button (click)="openAppointmentEditDialog(appointment)">
+                <button mat-icon-button *ngIf="isEditable(appointment)" (click)="openAppointmentEditDialog(appointment)">
                   <mat-icon>edit</mat-icon>
                 </button>
               </td>
@@ -50,7 +50,31 @@
             showFirstLastButtons>
           </mat-paginator>
 
-          <button mat-raised-button color="primary" (click)="openAppointmentNewDialog()">Create appointment</button>
+          <ng-container matColumnDef="modify">
+            <th mat-header-cell *matHeaderCellDef>Last modified</th>
+            <td mat-cell *matCellDef="let appointment">{{appointment.getAppointmentStatusInfo().getLastModified()}}</td>
+          </ng-container>   
+
+          <ng-container
+            *ngIf="isAdmin(); then adminBottom; else userBottom">
+          </ng-container>
+
+          <ng-template #adminBottom>
+            <div>
+              <form spellcheck="false" [formGroup]="getSearchForm()">
+                <mat-form-field>
+                  <mat-label>Id</mat-label>
+                  <input matInput type="text" formControlName="pattern" autocomplete="false">
+                </mat-form-field>
+              </form>              
+              <button mat-raised-button color="primary" (click)="searchAppointments()">Search appointments</button>
+            </div>
+          </ng-template>
+          <ng-template #userBottom>
+            <div>
+              <button mat-raised-button color="primary" (click)="openAppointmentNewDialog()">Create appointment</button>
+            </div>
+          </ng-template>          
         </div>
       </div>
     </div>

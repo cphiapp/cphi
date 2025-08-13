@@ -10,4 +10,5 @@ public interface AppointmentRepository extends PageableRepository<Appointment, S
 
     //Page<Appointment> findAllByUserId(String userId, Pageable page);
     List<Appointment> findAllByUserId(String userId);
+    List<Appointment> findAllByIdIlike(String id);
 }

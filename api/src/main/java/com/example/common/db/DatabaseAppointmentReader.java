@@ -28,4 +28,8 @@ public class DatabaseAppointmentReader {
         return appointmentRepository.findAllByUserId(userId);
         //return appointmentRepository.findAllByUserId(userId, Pageable.from(page, fetchCount));
     }
+
+    public List<Appointment> getAppointmentsWithId(String id) {
+        return appointmentRepository.findAllByIdIlike(id + "%");
+    }
 }

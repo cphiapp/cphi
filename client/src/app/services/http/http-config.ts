@@ -1,4 +1,5 @@
-import {HttpHeaders} from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
+
 
 export const HttpOptions = {
   headers: new HttpHeaders({

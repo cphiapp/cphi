@@ -9,7 +9,7 @@
                     <mat-select formControlName="status">
                         <mat-option value="SCHEDULED">Scheduled</mat-option>
                         <mat-option value="CANCELLED">Cancelled</mat-option>
-                        <mat-option value="DONE">Done</mat-option>
+                        <mat-option *ngIf="isAdmin()" value="DONE">Done</mat-option>
                     </mat-select>
                 </mat-form-field>                
                 <mat-form-field>
