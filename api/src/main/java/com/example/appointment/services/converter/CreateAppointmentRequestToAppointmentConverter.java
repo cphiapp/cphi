@@ -19,7 +19,7 @@ public class CreateAppointmentRequestToAppointmentConverter {
 
     public Appointment convert(String userId, CreateAppointmentRequest request) {
         var id = idGeneratorService.generateId();
-<<<<<<< HEAD
+<<<<<<<HEAD
         var appointment = new Appointment();
         appointment.setAppointmentId(id);
         appointment.setUserId(userId);
@@ -29,7 +29,7 @@ public class CreateAppointmentRequestToAppointmentConverter {
         //return new Appointment(id, userId, request.appointmentTime(), createDefaultStatusInfo());
 =======
         return new Appointment(id, userId, request.appointmentTime(), createDefaultStatusInfo());
->>>>>>> f67e42c (MongoDb implementation)
+>>>>>>>f67e42c(MongoDb implementation)
     }
 
     private AppointmentStatusInfo createDefaultStatusInfo() {

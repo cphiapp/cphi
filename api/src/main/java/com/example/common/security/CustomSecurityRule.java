@@ -1,13 +1,6 @@
 package com.example.common.security;
 
-<<<<<<< HEAD
-//Basic implementation for the AWS user management security rule.
-//For development purposes we are using basic auth and keeping this disabled.
-=======
-
 import static io.micronaut.security.rules.SecurityRuleResult.ALLOWED;
-import static io.micronaut.security.rules.SecurityRuleResult.REJECTED;
->>>>>>> f67e42c (MongoDb implementation)
 
 import com.example.common.db.DatabaseAppointmentReader;
 import io.micronaut.http.HttpRequest;
@@ -30,7 +23,8 @@ public class CustomSecurityRule implements SecurityRule<HttpRequest<?>> {
 
     @Override
     public Publisher<SecurityRuleResult> check(@Nullable HttpRequest<?> request, @Nullable Authentication authentication) {
-        return authentication == null ? Mono.just(REJECTED) : Mono.just(ALLOWED);
+        //return authentication == null ? Mono.just(REJECTED) : Mono.just(ALLOWED);
+        return Mono.just(ALLOWED);
     }
 
 
