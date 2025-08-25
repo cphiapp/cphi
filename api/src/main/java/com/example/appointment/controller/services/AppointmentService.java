@@ -7,6 +7,7 @@ import com.example.appointment.services.db.DatabaseAppointmentWriter;
 import com.example.common.db.DatabaseAppointmentReader;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class AppointmentService {
@@ -21,6 +22,10 @@ public class AppointmentService {
         this.databaseAppointmentReader = databaseAppointmentReader;
         this.databaseAppointmentWriter = databaseAppointmentWriter;
         this.converter = converter;
+    }
+
+    public List<Appointment> getAppointmentsWithPattern(String appointmentId) {
+        return databaseAppointmentReader.getAppointmentsWithIdPrefix(appointmentId);
     }
 
     public Appointment cancelAppointment(Authentication authentication, String appointmentId) {
