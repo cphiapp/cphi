@@ -3,7 +3,7 @@ package com.example.common.db;
 import com.example.appointment.dao.Appointment;
 import com.example.appointment.dao.AppointmentRepository;
 import com.example.common.exception.EntityNotFoundException;
-import io.micronaut.context.annotation.Value;
+import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import java.util.List;
 
@@ -11,12 +11,9 @@ import java.util.List;
 public class DatabaseAppointmentReader {
 
     private final AppointmentRepository appointmentRepository;
-    private final Integer fetchCount;
 
-    public DatabaseAppointmentReader(AppointmentRepository appointmentRepository,
-            @Value("${pagination.default-count}") int fetchCount) {
+    public DatabaseAppointmentReader(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
-        this.fetchCount = fetchCount;
     }
 
     public Appointment getAppointmentById(String appointmentId) {
@@ -24,9 +21,8 @@ public class DatabaseAppointmentReader {
                 .orElseThrow(() -> new EntityNotFoundException("Appointment " + appointmentId + " is not found."));
     }
 
-    public List<Appointment> getAppointmentsOfUser(String userId, int page) {
-        return appointmentRepository.findAllByUserId(userId);
-        //return appointmentRepository.findAllByUserId(userId, Pageable.from(page, fetchCount));
+    public List<Appointment> getAppointmentsOfUser(Authentication authentication) {
+        return appointmentRepository.findAllByUserId(authentication.getName());
     }
 
     public List<Appointment> getAppointmentsWithId(String id) {
