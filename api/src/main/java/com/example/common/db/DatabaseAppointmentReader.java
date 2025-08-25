@@ -25,7 +25,7 @@ public class DatabaseAppointmentReader {
         return appointmentRepository.findAllByUserId(authentication.getName());
     }
 
-    public List<Appointment> getAppointmentsWithId(String id) {
+    public List<Appointment> getAppointmentsWithIdPrefix(String id) {
         return appointmentRepository.findAllByIdIlike(id + "%");
     }
 }
