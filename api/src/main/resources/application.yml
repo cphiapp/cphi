@@ -9,8 +9,5 @@ micronaut:
     serialization:
       inclusion: ALWAYS
 
-pagination:
-  default-count: 10
-
 mongodb:
   uri: ${MONGODB_URI}

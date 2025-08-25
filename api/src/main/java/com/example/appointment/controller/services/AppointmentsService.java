@@ -5,8 +5,8 @@ import com.example.appointment.dao.Appointment;
 import com.example.appointment.services.converter.CreateAppointmentRequestToAppointmentConverter;
 import com.example.appointment.services.db.DatabaseAppointmentWriter;
 import com.example.common.db.DatabaseAppointmentReader;
+import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
-import java.security.Principal;
 import java.util.List;
 
 @Singleton
@@ -24,12 +24,12 @@ public class AppointmentsService {
         this.createAppointmentConverter = createAppointmentConverter;
     }
 
-    public Appointment createAppointment(Principal principal, CreateAppointmentRequest request) {
-        var appointment = createAppointmentConverter.convert(principal.getName(), request);
+    public Appointment createAppointment(Authentication authentication, CreateAppointmentRequest request) {
+        var appointment = createAppointmentConverter.convert(authentication.getName(), request);
         return databaseAppointmentWriter.createAppointment(appointment);
     }
 
-    public List<Appointment> getAppointments(Principal principal, int page) {
-        return databaseAppointmentReader.getAppointmentsOfUser(principal.getName(), page);
+    public List<Appointment> getAppointments(Authentication authentication) {
+        return databaseAppointmentReader.getAppointmentsOfUser(authentication);
     }
 }
