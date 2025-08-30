@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
-
-import { Buffer } from "buffer"
-import { HttpOptions } from "../http/http-config"
+import { HttpHeaders } from "@angular/common/http";
+import { map } from "rxjs";
+import { OidcSecurityService } from "angular-auth-oidc-client";
 
 
 @Injectable({
@@ -9,13 +9,21 @@ import { HttpOptions } from "../http/http-config"
 })
 export class AuthTokenService {
 
-    setCredential(userName: string, password: string) {
-        let token = Buffer.from(`${userName}:${password}`, "binary").toString("base64")
-        HttpOptions.headers = HttpOptions.headers.set("Authorization", `Basic ${token}`)
-    }
+    constructor(private oidcSecurityService : OidcSecurityService) {}
 
-    unsetCredential() {
-        HttpOptions.headers = HttpOptions.headers.delete("Authorization")
-    }
-
+    getHeaders() {
+        return this.oidcSecurityService.getIdToken().pipe(
+            map(token => {
+                return {
+                    headers: new HttpHeaders({
+                        "Access-Control-Allow-Origin": "*",
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }),
+                    withCredentials: true,
+                    observe: 'response' as const
+                };
+            })
+        )
+    };
 }

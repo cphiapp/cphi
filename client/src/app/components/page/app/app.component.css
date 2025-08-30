@@ -1,6 +1,5 @@
 /* App Layout Styles */
 .app-content {
-    margin-top: 70px; /* Space for fixed navbar */
     min-height: calc(100vh - 70px);
     background-color: #f8f9fa;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from "@angular/core"
 import { Router } from "@angular/router"
-import { CognitoAuthService } from "../../../auth/cognito-auth.service"
+import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // Check authentication status on component init
-    this.cognitoAuthService.checkAuth().subscribe()
     
     // Subscribe to authentication status changes
     this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {

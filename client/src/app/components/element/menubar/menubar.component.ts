@@ -1,6 +1,5 @@
 import { Component, OnInit, inject } from "@angular/core"
-import { Router } from "@angular/router"
-import { CognitoAuthService } from "../../../auth/cognito-auth.service"
+import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -11,7 +10,6 @@ import { CognitoAuthService } from "../../../auth/cognito-auth.service"
 export class MenubarComponent implements OnInit {
 
   private cognitoAuthService = inject(CognitoAuthService)
-  private router = inject(Router)
 
   isAuthenticated = false
   userData$ = this.cognitoAuthService.userData$
@@ -29,6 +27,7 @@ export class MenubarComponent implements OnInit {
     // Subscribe to user data
     this.userData$.subscribe(userData => {
       if (userData) {
+        console.log(userData)
         // Access user data properties safely
         const userDataObj = userData as any
         this.userEmail = userDataObj.email || userDataObj.preferred_username || ''
@@ -44,13 +43,4 @@ export class MenubarComponent implements OnInit {
   logout() {
     this.cognitoAuthService.logout()
   }
-
-  navigateToAppointments() {
-    this.router.navigate(['/appointments'])
-  }
-
-  navigateToUsers() {
-    this.router.navigate(['/users'])
-  }
-
 }

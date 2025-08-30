@@ -1,3 +1,4 @@
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { BrowserModule } from "@angular/platform-browser"
 import { HttpClientModule } from "@angular/common/http"
@@ -13,42 +14,43 @@ import { MatSelectModule } from "@angular/material/select"
 import { MatTableModule } from "@angular/material/table"
 import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatTooltipModule } from "@angular/material/tooltip"
-import { NgModule } from "@angular/core"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
 
-// Cognito Authentication
-import { CognitoAuthModule } from "./app/auth/cognito-auth.module"
+import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
+import { firstValueFrom } from 'rxjs';
 
+import { cognitoAuthConfig } from "./app/services/auth/auth.config"
 import { AppComponent } from "./app/components/page/app/app.component"
 import { AppointmentCreateFormDialogComponent } from "./app/components/element/appointment-create-form/appointment-create-form.component"
-import { AppointmentEditFormDialogComponent } from "./app/components/element/appointment-edit-form/appointment-edit-form.component"
 import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
 import { AppRoutingModule } from "./app/services/auth/app-routing.module"
 import { LoginComponent } from "./app/components/page/login/login.component"
 import { MenubarComponent } from "./app/components/element/menubar/menubar.component"
-import { RegisterDialogComponent } from "./app/components/element/register/register.component"
-import { UserProfileDialogComponent } from "./app/components/element/user-profile/user-profile.component"
 
 
-
+export function initializeAuth(oidcSecurityService: OidcSecurityService) {
+  return () =>
+    firstValueFrom(
+      oidcSecurityService.checkAuth().pipe()
+    ); // resolves once auth is checked
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     AppointmentCreateFormDialogComponent,
-    AppointmentEditFormDialogComponent,
     AppointmentListComponent,
     LoginComponent,
     MenubarComponent,
-    UserProfileDialogComponent,
-    RegisterDialogComponent
   ],
   imports: [
+    AuthModule.forRoot(
+      cognitoAuthConfig
+    ),    
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
-    CognitoAuthModule,
     HttpClientModule,
     MatButtonModule,
     MatDialogModule,
@@ -65,6 +67,12 @@ import { UserProfileDialogComponent } from "./app/components/element/user-profil
     ReactiveFormsModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAuth,
+      deps: [OidcSecurityService],
+      multi: true,
+    },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

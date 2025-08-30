@@ -1,5 +1,6 @@
 import { PassedInitialConfig, LogLevel } from 'angular-auth-oidc-client';
 
+
 export const cognitoAuthConfig: PassedInitialConfig = {
   config: {
     authority: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T',

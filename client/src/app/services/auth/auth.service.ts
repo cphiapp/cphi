@@ -1,47 +1,39 @@
-import { Injectable } from "@angular/core"
-import { Router } from "@angular/router"
-
-import { AuthTokenService } from "./auth-token.service"
-import { User } from "../../entities/response/user-response"
-
+import { Injectable, inject } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
-export class AuthService {
+export class CognitoAuthService {
+  private readonly oidcSecurityService = inject(OidcSecurityService);
 
-  private isLoggedIn: boolean
-  private currentUser: User
+  configuration$ = this.oidcSecurityService.getConfiguration();
+  userData$ = this.oidcSecurityService.userData$;
+  authResult$ = this.oidcSecurityService.getAuthenticationResult()
+  isAuthenticated$ = this.oidcSecurityService.isAuthenticated$.pipe(
+    map(({ isAuthenticated }) => isAuthenticated)
+  );
 
-  constructor(private router: Router,
-              private authTokenService: AuthTokenService) {
-      this.isLoggedIn = false
-      this.currentUser = undefined
+  getParsedToken(): Observable<any> {
+    return this.oidcSecurityService.getPayloadFromIdToken()
   }
 
-  getLoggedIn() {
-    return this.isLoggedIn
+  login(): void {
+    this.oidcSecurityService.authorize();
   }
 
-  isAdmin() {
-    return this.currentUser.getRoleName() == "ADMIN"
+  logout(): void {
+    // Clear session storage
+    if (window.sessionStorage) {
+      window.sessionStorage.clear();
+    }
+    
+    // Use the hosted UI logout URL
+    const clientId = '1dheen19kd0a5i5364ip8e43v1';
+    const logoutUri = encodeURIComponent('https://d15dzv70fdtos7.cloudfront.net');
+    const logoutUrl = `https://us-east-1be7maqc5t.auth.us-east-1.amazoncognito.com/logout?client_id=${clientId}&logout_uri=${logoutUri}`;
+    
+    window.location.href = logoutUrl;
   }
-
-  getCurrentUser(): User {
-    return this.currentUser
-  }
-
-  login(user: User) {
-      this.isLoggedIn = true
-      this.currentUser = user
-      this.router.navigate(["/appointments"])
-  }
-
-  logout() {
-    this.authTokenService.unsetCredential()
-    this.isLoggedIn = false
-    this.currentUser = undefined
-    this.router.navigate([""])
-  }
-
 }

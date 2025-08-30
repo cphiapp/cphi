@@ -6,10 +6,9 @@ import { MatPaginator } from "@angular/material/paginator"
 import { MatTableDataSource } from "@angular/material/table"
 
 import { Appointment } from "../../../entities/response/appointment-response"
-import { AppointmentEditFormDialogComponent } from "../../element/appointment-edit-form/appointment-edit-form.component"
 import { AppointmentCreateFormDialogComponent } from "../../element/appointment-create-form/appointment-create-form.component"
 import { AppointmentService } from "../../../services/http/appointment.service"
-import { AuthService } from "../../../services/auth/auth.service"
+import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -19,17 +18,18 @@ import { AuthService } from "../../../services/auth/auth.service"
 export class AppointmentListComponent {
 
   @ViewChild("paginator") private paginator: MatPaginator
-  private columns = ["id", "date", "status", "modify", "comment", "actions"]
+  columns = ["id", "date", "status", "actions"]
+  errorMessage: string
+  appointments : Appointment[]
+  appointmentsData: MatTableDataSource<Appointment>
+  searchForm: FormGroup
+  isAdmin: boolean
 
-  private errorMessage: string
-  private appointments : Appointment[]
-  private appointmentsData: MatTableDataSource<Appointment>
-  private searchForm: FormGroup
-
-  constructor(private authService: AuthService,
+  constructor(private authService: CognitoAuthService,
               private dialog: MatDialog,
               private appointmentService: AppointmentService,
               private formBuilder: FormBuilder) {
+    this.isAdmin = false
     this.errorMessage = ""
     this.appointments = []
     this.appointmentsData = new MatTableDataSource(this.appointments)
@@ -37,12 +37,19 @@ export class AppointmentListComponent {
       pattern: ["", Validators.minLength(4)]
     })
 
-    if(!authService.isAdmin()) {
-      this.appointmentService.getCurrentUserAppointments().subscribe({
-        next: res => this.handleInitGetSuccess(res),
-        error: err => this.handleInitGetFailure(err)
-      })
-    }
+    this.authService.authResult$.subscribe(result => console.log(result))
+
+    this.authService.getParsedToken().subscribe(
+      res => {
+        this.isAdmin = res["cognito:groups"]?.includes("admin") || false
+        if(this.isAdmin) {
+          this.appointmentService.getCurrentUserAppointments().subscribe({
+            next: res => this.handleInitGetSuccess(res),
+            error: err => this.handleRequestFailure(err)
+          })        
+        }
+      }
+    )
   }
 
   private handleInitGetSuccess(res: HttpResponse<Appointment[]>) {
@@ -50,7 +57,7 @@ export class AppointmentListComponent {
     this.refreshAppointments()
   }
 
-  private handleInitGetFailure(err: HttpErrorResponse) {
+  private handleRequestFailure(err: HttpErrorResponse) {
     switch(err.status) {
       case 0:
         this.errorMessage = "Could not reach server."
@@ -61,28 +68,8 @@ export class AppointmentListComponent {
     }
   }
 
-  getErrorMessage() {
-    return this.errorMessage
-  }
-
-  getColumns() {
-    return this.columns
-  }
-
-  getAppointmentsData() {
-    return this.appointmentsData
-  }
-
-  getSearchForm() {
-    return this.searchForm
-  }
-
-  isAdmin() {
-    return this.authService.isAdmin()
-  }
-
   isEditable(appointment: Appointment) {
-    return this.isAdmin() || appointment.getAppointmentStatusInfo().getStatus() == "SCHEDULED"
+    return appointment.getStatus() == "SCHEDULED"
   }
 
   private refreshAppointments() {
@@ -105,21 +92,24 @@ export class AppointmentListComponent {
     })
   }
 
-  openAppointmentEditDialog(appointment: Appointment) {
-    this.dialog.open(AppointmentEditFormDialogComponent, {data: {"appointment": appointment}})
-      .updateSize("30%")
-      .afterClosed().subscribe(appointmentStatus => {
-        if(appointmentStatus != null) {
-          appointment.setAppointmentStatusInfo(appointmentStatus)
-        }
-      })
-  }
-
   searchAppointments() {
     this.appointmentService.searchAppointments(this.searchForm.controls["pattern"].value.toUpperCase()).subscribe({
       next: res => this.handleInitGetSuccess(res),
-      error: err => this.handleInitGetFailure(err)
+      error: err => this.handleRequestFailure(err)
     })
+  }
+
+  closeAppointment(appointment: Appointment) {
+    this.appointmentService.closeAppointment(appointment.getAppointmentId()).subscribe({
+      next: () => this.handleDeleteSuccess(appointment),
+      error: err => this.handleRequestFailure(err)
+    })
+  }
+
+  private handleDeleteSuccess(appointment: Appointment) {
+    var newStatus = this.isAdmin ? "DONE" : "CANCELLED"
+    appointment.setStatus(newStatus)
+    this.refreshAppointments()
   }
 
 }

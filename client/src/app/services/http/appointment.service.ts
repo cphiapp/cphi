@@ -1,12 +1,11 @@
 import { HttpClient, HttpResponse } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import { Observable } from "rxjs"
+import { Observable, mergeMap } from "rxjs"
 
-import { Endpoints, HttpOptions } from "./http-config"
+import { Endpoints } from "./http-config"
 import { Appointment } from "../../entities/response/appointment-response"
 import { CreateAppointmentRequest } from "../../entities/request/create-appointment-request"
-import { ModifyAppointmentRequest } from "../../entities/request/modify-appointment-request"
-import { AppointmentStatus } from "../../entities/response/appointment-status-response"
+import { AuthTokenService } from "../auth/auth-token.service"
 
 
 @Injectable({
@@ -14,21 +13,31 @@ import { AppointmentStatus } from "../../entities/response/appointment-status-re
 })
 export class AppointmentService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private authTokenService: AuthTokenService) { }
 
   createAppointment(createAppointmentRequest: CreateAppointmentRequest): Observable<HttpResponse<Appointment>> {
-    return this.http.post<Appointment>(Endpoints.appointmentMapping, createAppointmentRequest, HttpOptions)
+    return this.authTokenService.getHeaders().pipe(
+      mergeMap(headers => this.http.post<Appointment>(Endpoints.appointmentMapping, createAppointmentRequest, headers))
+    )
   }
 
   getCurrentUserAppointments(): Observable<HttpResponse<Appointment[]>> {
-    return this.http.get<Appointment[]>(Endpoints.appointmentMapping, HttpOptions)
+    return this.authTokenService.getHeaders().pipe(
+      mergeMap(headers => this.http.get<Appointment[]>(Endpoints.appointmentMapping, headers))
+    )    
+   
   }
 
-  modifyAppointment(appointmentId: string, modifyAppointmentRequest: ModifyAppointmentRequest): Observable<HttpResponse<AppointmentStatus>> {
-    return this.http.put<AppointmentStatus>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), modifyAppointmentRequest, HttpOptions)
+  closeAppointment(appointmentId: string): Observable<HttpResponse<any>> {
+    return this.authTokenService.getHeaders().pipe(
+      mergeMap(headers => this.http.delete(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), headers))
+    )    
   }
 
   searchAppointments(appointmentId: string): Observable<HttpResponse<Appointment[]>> {
-    return this.http.get<Appointment[]>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), HttpOptions)
+    return this.authTokenService.getHeaders().pipe(
+      mergeMap(headers => this.http.get<Appointment[]>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), headers))
+    )
   }
 }

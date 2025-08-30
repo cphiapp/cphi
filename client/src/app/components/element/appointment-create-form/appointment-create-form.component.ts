@@ -13,8 +13,8 @@ import { AppointmentService } from "../../../services/http/appointment.service"
 })
 export class AppointmentCreateFormDialogComponent {
 
-  private errorMessage: string
-  private appointmentCreateForm: FormGroup
+  errorMessage: string
+  appointmentCreateForm: FormGroup
 
   constructor(private dialog: MatDialogRef<AppointmentCreateFormDialogComponent>,
               private appointmentService: AppointmentService,
@@ -23,14 +23,6 @@ export class AppointmentCreateFormDialogComponent {
     this.appointmentCreateForm = this.formBuilder.nonNullable.group ({
       appointmentTime : ["", Validators.required]
     })
-  }
-
-  getErrorMessage() {
-    return this.errorMessage
-  }
-
-  getAppointmentCreateForm() {
-    return this.appointmentCreateForm
   }
 
   onAppointmentCreateFormSubmit() {

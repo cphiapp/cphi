@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from "@angular/core"
 import { Router } from "@angular/router"
-import { CognitoAuthService } from "../../../auth/cognito-auth.service"
+import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 @Component({
   selector: "app-root",
@@ -8,13 +8,11 @@ import { CognitoAuthService } from "../../../auth/cognito-auth.service"
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-  private cognitoAuthService = inject(CognitoAuthService)
-  private router = inject(Router)
+
+  constructor(private cognitoAuthService: CognitoAuthService,
+              private router: Router) {}
 
   ngOnInit(): void {
-    // Initialize authentication check when app starts
-    this.cognitoAuthService.checkAuth().subscribe()
-    
     // Handle initial routing based on authentication status
     this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
       const currentUrl = this.router.url

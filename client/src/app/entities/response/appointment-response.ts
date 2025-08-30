@@ -1,13 +1,12 @@
-import { AppointmentStatus } from "./appointment-status-response";
+
 
 export class Appointment {
     public appointmentId: string;
     public appointmentTime: string;
-    public statusInfo: AppointmentStatus;
+    public status: string;
 
     constructor(init?: Partial<Appointment>) {
         Object.assign(this, init);
-        this.statusInfo = new AppointmentStatus(this.statusInfo)
     }
 
     getAppointmentId() {
@@ -18,11 +17,11 @@ export class Appointment {
         return this.appointmentTime;
     }
 
-    getAppointmentStatusInfo() {
-        return this.statusInfo;
+    getStatus() {
+        return this.status;
     }
 
-    setAppointmentStatusInfo(statusInfo: AppointmentStatus) {
-        this.statusInfo = statusInfo
+    setStatus(status: string) {
+        this.status = status
     }
 }
