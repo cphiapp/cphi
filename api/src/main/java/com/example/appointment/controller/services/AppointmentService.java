@@ -1,5 +1,7 @@
 package com.example.appointment.controller.services;
 
+import static com.example.common.security.Roles.ROLE_ADMIN;
+
 import com.example.appointment.AppointmentStatus;
 import com.example.appointment.dao.Appointment;
 import com.example.appointment.services.converter.AppointmentStatusConverter;
@@ -30,7 +32,7 @@ public class AppointmentService {
 
     public Appointment cancelAppointment(Authentication authentication, String appointmentId) {
         var originalAppointment = databaseAppointmentReader.getAppointmentById(appointmentId);
-        var newStatus = (boolean) authentication.getAttributes().get(null) ? AppointmentStatus.CANCELLED : AppointmentStatus.DONE;
+        var newStatus = authentication.getRoles().contains(ROLE_ADMIN) ? AppointmentStatus.CANCELLED : AppointmentStatus.DONE;
         var modifiedAppointment = converter.convert(originalAppointment, newStatus);
         return databaseAppointmentWriter.modifyAppointment(modifiedAppointment);
     }

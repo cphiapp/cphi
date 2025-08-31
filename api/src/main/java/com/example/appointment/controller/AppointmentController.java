@@ -1,5 +1,6 @@
 package com.example.appointment.controller;
 
+import static com.example.common.security.Roles.ROLE_ADMIN;
 import static io.micronaut.http.HttpResponse.ok;
 import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
 
@@ -28,13 +29,14 @@ public class AppointmentController {
     }
 
     @Get
+    @Secured({ROLE_ADMIN})
     public GetAppointmentsResponse getAppointmentsWithPattern(@PathVariable String appointmentId) {
         var appointments = appointmentService.getAppointmentsWithPattern(appointmentId);
         return converter.convert(appointments);
     }
 
     @Delete
-    public HttpResponse<?> cancelAppointment(Authentication authentication, @PathVariable String appointmentId) {
+    public HttpResponse<?> closeAppointment(Authentication authentication, @PathVariable String appointmentId) {
         appointmentService.cancelAppointment(authentication, appointmentId);
         return ok();
     }

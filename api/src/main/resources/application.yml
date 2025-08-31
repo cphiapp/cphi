@@ -8,6 +8,15 @@ micronaut:
   serde:
     serialization:
       inclusion: ALWAYS
+  security:
+    token:
+      roles-name: "cognito:groups"
+      name-key: "sub"
+      jwt:
+        signatures:
+          jwks:
+            awscognito:
+              url: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T/.well-known/jwks.json'
 
 mongodb:
   uri: ${MONGODB_URI}
