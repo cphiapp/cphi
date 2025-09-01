@@ -26,6 +26,6 @@ public class DatabaseAppointmentReader {
     }
 
     public List<Appointment> getAppointmentsWithIdPrefix(String id) {
-        return appointmentRepository.findAllByIdLike(id + "%");
+        return appointmentRepository.findAllByIdLike(id.toLowerCase());
     }
 }

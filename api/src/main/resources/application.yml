@@ -18,5 +18,27 @@ micronaut:
             awscognito:
               url: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T/.well-known/jwks.json'
 
+endpoints:
+  beans:
+    enabled: false
+  info:
+    enabled: false
+  loggers:
+    enabled: false
+  metrics:
+    enabled: false
+  refresh:
+    enabled: false
+  routes:
+    enabled: false
+  threaddump:
+    enabled: false
+  env:
+    enabled: false
+  caches:
+    enabled: false
+  stop:
+    enabled: false
+
 mongodb:
   uri: ${MONGODB_URI}

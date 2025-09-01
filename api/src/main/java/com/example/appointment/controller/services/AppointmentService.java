@@ -1,5 +1,7 @@
 package com.example.appointment.controller.services;
 
+import static com.example.appointment.AppointmentStatus.CANCELLED;
+import static com.example.appointment.AppointmentStatus.DONE;
 import static com.example.common.security.Roles.ROLE_ADMIN;
 
 import com.example.appointment.AppointmentStatus;
@@ -32,7 +34,7 @@ public class AppointmentService {
 
     public Appointment cancelAppointment(Authentication authentication, String appointmentId) {
         var originalAppointment = databaseAppointmentReader.getAppointmentById(appointmentId);
-        var newStatus = authentication.getRoles().contains(ROLE_ADMIN) ? AppointmentStatus.CANCELLED : AppointmentStatus.DONE;
+        var newStatus = authentication.getRoles().contains(ROLE_ADMIN) ? DONE : CANCELLED;
         var modifiedAppointment = converter.convert(originalAppointment, newStatus);
         return databaseAppointmentWriter.modifyAppointment(modifiedAppointment);
     }

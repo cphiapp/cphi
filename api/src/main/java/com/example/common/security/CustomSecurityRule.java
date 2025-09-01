@@ -33,25 +33,27 @@ public class CustomSecurityRule implements SecurityRule<HttpRequest<?>> {
             return Mono.just(REJECTED);
         }
 
-        if (authentication.getRoles().contains(ROLE_ADMIN)) {
-            return Mono.just(ALLOWED);
-        }
-
         Optional<UriRouteMatch> uriRouteMatch = request
                 .getAttributes()
                 .get(ROUTE_MATCH.toString(), UriRouteMatch.class);
 
         if (uriRouteMatch.isPresent()) {
-            var variableValues = uriRouteMatch.get().getVariableValues();
-            var appointmentId = variableValues.get("appointmentId").toString();
-            try {
-                return databaseAppointmentReader.getAppointmentById(appointmentId).userId().equals(appointmentId) ? Mono.just(ALLOWED)
-                        : Mono.just(REJECTED);
-            } catch (EntityNotFoundException e) {
-                return Mono.just(REJECTED);
+            if (authentication.getRoles().contains(ROLE_ADMIN)) {
+                return Mono.just(ALLOWED);
             }
-        }
 
+            var variableValues = uriRouteMatch.get().getVariableValues();
+            if(variableValues.containsKey("appointmentId")) {
+                var appointmentId = variableValues.get("appointmentId").toString();
+                try {
+                    return databaseAppointmentReader.getAppointmentById(appointmentId).userId().equals(authentication.getName()) ? Mono.just(ALLOWED)
+                            : Mono.just(REJECTED);
+                } catch (EntityNotFoundException e) {
+                    return Mono.just(REJECTED);
+                }
+            }
+            return Mono.just(ALLOWED);
+        }
         return Mono.just(REJECTED);
     }
 

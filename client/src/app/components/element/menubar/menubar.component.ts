@@ -27,7 +27,6 @@ export class MenubarComponent implements OnInit {
     // Subscribe to user data
     this.userData$.subscribe(userData => {
       if (userData) {
-        console.log(userData)
         // Access user data properties safely
         const userDataObj = userData as any
         this.userEmail = userDataObj.email || userDataObj.preferred_username || ''

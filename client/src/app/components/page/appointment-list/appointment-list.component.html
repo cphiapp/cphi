@@ -8,7 +8,7 @@
           <table mat-table [dataSource]="appointmentsData">
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef>Identifier</th>
-              <td mat-cell *matCellDef="let appointment">{{appointment.getAppointmentId()}}</td>
+              <td mat-cell *matCellDef="let appointment">{{appointment.getId()}}</td>
             </ng-container>
 
             <ng-container matColumnDef="date">
@@ -18,14 +18,14 @@
 
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td mat-cell *matCellDef="let appointment">{{appointment.getAppointmentStatusInfo().getStatus()}}</td>
+              <td mat-cell *matCellDef="let appointment">{{appointment.getStatus()}}</td>
             </ng-container>               
 
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let appointment">
                 <button mat-icon-button *ngIf="isEditable(appointment)" (click)="closeAppointment(appointment)">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>delete</mat-icon>
                 </button>
               </td>
             </ng-container>
@@ -39,11 +39,6 @@
             [pageSizeOptions]="[10, 25, 50]"
             showFirstLastButtons>
           </mat-paginator>
-
-          <ng-container matColumnDef="modify">
-            <th mat-header-cell *matHeaderCellDef>Last modified</th>
-            <td mat-cell *matCellDef="let appointment">{{appointment.getAppointmentStatusInfo().getLastModified()}}</td>
-          </ng-container>   
 
           <ng-container
             *ngIf="isAdmin; then adminBottom; else userBottom">

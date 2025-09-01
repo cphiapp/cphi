@@ -1,7 +1,5 @@
-
-
 export class Appointment {
-    public appointmentId: string;
+    public id: string;
     public appointmentTime: string;
     public status: string;
 
@@ -9,8 +7,8 @@ export class Appointment {
         Object.assign(this, init);
     }
 
-    getAppointmentId() {
-        return this.appointmentId;
+    getId() {
+        return this.id;
     }
 
     getAppointmentTime() {

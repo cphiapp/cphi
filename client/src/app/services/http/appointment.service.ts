@@ -6,6 +6,7 @@ import { Endpoints } from "./http-config"
 import { Appointment } from "../../entities/response/appointment-response"
 import { CreateAppointmentRequest } from "../../entities/request/create-appointment-request"
 import { AuthTokenService } from "../auth/auth-token.service"
+import { Appointments } from "../../entities/response/appointments-response"
 
 
 @Injectable({
@@ -22,9 +23,9 @@ export class AppointmentService {
     )
   }
 
-  getCurrentUserAppointments(): Observable<HttpResponse<Appointment[]>> {
+  getCurrentUserAppointments(): Observable<HttpResponse<Appointments>> {
     return this.authTokenService.getHeaders().pipe(
-      mergeMap(headers => this.http.get<Appointment[]>(Endpoints.appointmentMapping, headers))
+      mergeMap(headers => this.http.get<Appointments>(Endpoints.appointmentMapping, headers))
     )    
    
   }
@@ -35,9 +36,9 @@ export class AppointmentService {
     )    
   }
 
-  searchAppointments(appointmentId: string): Observable<HttpResponse<Appointment[]>> {
+  searchAppointments(appointmentId: string): Observable<HttpResponse<Appointments>> {
     return this.authTokenService.getHeaders().pipe(
-      mergeMap(headers => this.http.get<Appointment[]>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), headers))
+      mergeMap(headers => this.http.get<Appointments>(Endpoints.appointmentEntityMapping.replace("%1", appointmentId), headers))
     )
   }
 }

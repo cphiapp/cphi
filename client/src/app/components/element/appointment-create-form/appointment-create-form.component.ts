@@ -38,7 +38,8 @@ export class AppointmentCreateFormDialogComponent {
   }
 
   private handleSuccess(res: HttpResponse<Appointment>) {
-    this.dialog.close(new Appointment(res.body))
+    var appointment = new Appointment(res.body)
+    this.dialog.close(appointment)
   }
 
   private handleFailure(err: HttpErrorResponse) {
