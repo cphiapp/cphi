@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { CognitoAuthService } from '../../../services/auth/auth.service'
+// Authentication service removed
 
 @Component({
   selector: 'app-profile',
@@ -8,24 +8,15 @@ import { CognitoAuthService } from '../../../services/auth/auth.service'
 })
 export class ProfileComponent implements OnInit {
 
-  userData$ = this.cognitoAuthService.userData$
-  userEmail = ''
-  userName = ''
-  userGivenName = ''
-  userFamilyName = ''
+  userEmail = 'test-user@example.com'
+  userName = 'Test User'
+  userGivenName = 'Test'
+  userFamilyName = 'User'
 
-  constructor(private cognitoAuthService: CognitoAuthService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.userData$.subscribe(userData => {
-      if (userData) {
-        const userDataObj = userData as any
-        this.userEmail = userDataObj.email || userDataObj.preferred_username || ''
-        this.userName = userDataObj.name || userDataObj.preferred_username || this.userEmail.split('@')[0] || 'User'
-        this.userGivenName = userDataObj.given_name || ''
-        this.userFamilyName = userDataObj.family_name || ''
-      }
-    })
+    // Authentication disabled - using fixed test user data
   }
 
 }

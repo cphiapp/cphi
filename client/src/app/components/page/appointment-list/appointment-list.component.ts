@@ -8,7 +8,7 @@ import { MatTableDataSource } from "@angular/material/table"
 import { Appointment } from "../../../entities/response/appointment-response"
 import { AppointmentCreateFormDialogComponent } from "../../element/appointment-create-form/appointment-create-form.component"
 import { AppointmentService } from "../../../services/http/appointment.service"
-import { CognitoAuthService } from "../../../services/auth/auth.service"
+// Authentication service removed
 import { Appointments } from "../../../entities/response/appointments-response"
 
 
@@ -27,8 +27,7 @@ export class AppointmentListComponent {
   searchForm: FormGroup
   isAdmin: boolean
 
-  constructor(private authService: CognitoAuthService,
-              private dialog: MatDialog,
+  constructor(private dialog: MatDialog,
               private appointmentService: AppointmentService,
               private formBuilder: FormBuilder) {
     this.isAdmin = false
@@ -39,17 +38,12 @@ export class AppointmentListComponent {
       pattern: ["", Validators.minLength(4)]
     })
 
-    this.authService.getParsedToken().subscribe(
-      res => {
-        this.isAdmin = res["cognito:groups"]?.includes("admin") || false
-        if(!this.isAdmin) {
-          this.appointmentService.getCurrentUserAppointments().subscribe({
-            next: res => this.handleInitGetSuccess(res),
-            error: err => this.handleRequestFailure(err)
-          })        
-        }
-      }
-    )
+    // Authentication disabled - load appointments directly
+    this.isAdmin = false // No admin role since auth is disabled
+    this.appointmentService.getCurrentUserAppointments().subscribe({
+      next: res => this.handleInitGetSuccess(res),
+      error: err => this.handleRequestFailure(err)
+    })
   }
 
   private handleInitGetSuccess(res: HttpResponse<Appointments>) {

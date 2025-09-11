@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from "@angular/core"
 import { Router } from "@angular/router"
-import { CognitoAuthService } from "../../../services/auth/auth.service"
+// Authentication service removed
 
 
 @Component({
@@ -10,37 +10,24 @@ import { CognitoAuthService } from "../../../services/auth/auth.service"
 })
 export class LoginComponent implements OnInit {
 
-  private cognitoAuthService = inject(CognitoAuthService)
   private router = inject(Router)
   
-  isAuthenticated = false
-  userData$ = this.cognitoAuthService.userData$
+  isAuthenticated = true // Always authenticated since auth is disabled
 
   constructor() {}
 
   ngOnInit(): void {
-    // Check authentication status on component init
-    
-    // Subscribe to authentication status changes
-    this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated
-      console.warn('authenticated: ', isAuthenticated)
-      
-      // Redirect to appointments page if authenticated
-      if (isAuthenticated) {
-        this.router.navigate(['/appointments'])
-      }
-    })
+    // Authentication disabled - redirect directly to appointments
+    this.router.navigate(['/appointments'])
   }
 
-  // Cognito login method
+  // Login methods disabled
   loginWithCognito(): void {
-    this.cognitoAuthService.login()
+    this.router.navigate(['/appointments'])
   }
 
-  // Cognito logout method
   logoutFromCognito(): void {
-    this.cognitoAuthService.logout()
+    this.router.navigate(['/appointments'])
   }
 
 }

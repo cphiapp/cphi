@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "DATABASE_URL",
-                    "value": "docdb-cphi.cluster-cq5qgu02qckj.us-east-1.docdb.amazonaws.com"
+                    "value": "docdb-cphi.cluster-cq5qgu02qckj.us-east-1.docdb.amazonaws.com:27017"
                 },
                 {
                     "name": "JAVA_OPTS",

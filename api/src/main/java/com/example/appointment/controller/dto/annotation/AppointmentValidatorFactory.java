@@ -5,7 +5,7 @@ import com.example.common.util.DateService;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.validation.validator.constraints.ConstraintValidator;
 import jakarta.inject.Singleton;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
@@ -13,7 +13,7 @@ import java.time.format.ResolverStyle;
 @Factory
 class AppointmentValidatorFactory {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             .withResolverStyle(ResolverStyle.STRICT);
 
     private final DateService dateService;
@@ -34,8 +34,8 @@ class AppointmentValidatorFactory {
 
     private boolean validateTimeFormat(String time) {
         try {
-            DATE_TIME_FORMATTER.parse(time);
-            return LocalDate.parse(time).isAfter(dateService.getNow());
+            LocalDateTime appointmentDateTime = LocalDateTime.parse(time, DATE_TIME_FORMATTER);
+            return appointmentDateTime.toLocalDate().isAfter(dateService.getNow());
         } catch (DateTimeParseException e) {
             return false;
         }
