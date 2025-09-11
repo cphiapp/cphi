@@ -2,7 +2,7 @@
 # Optimized for ECS Fargate with DocumentDB (ARM64/Graviton)
 
 # Stage 1: Build Java Backend
-FROM --platform=linux/arm64 public.ecr.aws/docker/library/eclipse-temurin:11 AS backend-build
+FROM --platform=linux/arm64 public.ecr.aws/docker/library/eclipse-temurin:17 AS backend-build
 WORKDIR /app/api
 
 # Copy Gradle wrapper and build files
