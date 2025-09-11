@@ -229,7 +229,7 @@ cd api
 
 ### Production
 - Frontend: `https://d15dzv70fdtos7.cloudfront.net`
-- Backend: `https://your-alb-url.amazonaws.com`
+- Backend: `https://cphi-alb-721046433.us-east-1.elb.amazonaws.com`
 
 ## 📊 Monitoring & Health Checks
 
