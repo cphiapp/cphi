@@ -53,5 +53,4 @@ endpoints:
     enabled: true
     sensitive: false
 
-mongodb:
-  uri: ${mongodb.uri}
+# MongoDB configuration will be provided by custom configuration class

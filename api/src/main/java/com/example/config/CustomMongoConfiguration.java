@@ -1,7 +1,9 @@
 package com.example.config;
 
-import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Replaces;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.data.mongodb.conf.DefaultMongoConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +11,16 @@ import org.slf4j.LoggerFactory;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-@Context
-public class EarlyMongoConfig {
+@ConfigurationProperties("mongodb")
+@Replaces(DefaultMongoConfiguration.class)
+public class CustomMongoConfiguration extends DefaultMongoConfiguration {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EarlyMongoConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CustomMongoConfiguration.class);
+    
+    public CustomMongoConfiguration() {
+        super();
+        LOG.info("CustomMongoConfiguration created - replacing default MongoDB configuration");
+    }
 
     @Value("${DATABASE_URL}")
     private String databaseUrl;
@@ -24,9 +32,9 @@ public class EarlyMongoConfig {
     private String password;
 
     @PostConstruct
-    public void configureMongoUri() {
+    public void buildUri() {
         try {
-            LOG.info("=== EARLY MONGODB CONFIGURATION ===");
+            LOG.info("=== CUSTOM MONGODB CONFIGURATION ===");
             LOG.info("DATABASE_URL: {}", databaseUrl);
             LOG.info("Username: {}", username != null && !username.isEmpty() ? "***" : "not set");
             LOG.info("Password: {}", password != null && !password.isEmpty() ? "***" : "not set");
@@ -39,13 +47,13 @@ public class EarlyMongoConfig {
             String uri = String.format("mongodb://%s:%s@%s/appointments?ssl=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false",
                     encodedUsername, encodedPassword, databaseUrl);
             
-            // Set system property so it can be used in application.yml
-            System.setProperty("mongodb.uri", uri);
+            // Set the URI on the parent configuration
+            setUri(uri);
             
             // Log sanitized URI (without password)
             String sanitizedUri = uri.replaceAll("://[^:]+:[^@]+@", "://***:***@");
-            LOG.info("Set MongoDB URI system property (sanitized): {}", sanitizedUri);
-            LOG.info("=== END EARLY MONGODB CONFIGURATION ===");
+            LOG.info("Set MongoDB URI (sanitized): {}", sanitizedUri);
+            LOG.info("=== END CUSTOM MONGODB CONFIGURATION ===");
             
         } catch (Exception e) {
             LOG.error("Failed to configure MongoDB URI", e);
