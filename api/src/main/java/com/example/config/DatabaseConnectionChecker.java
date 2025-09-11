@@ -1,7 +1,6 @@
 package com.example.config;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoDatabase;
+import com.example.appointment.dao.AppointmentRepository;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
@@ -14,7 +13,7 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseConnectionChecker.class);
 
-    private final MongoClient mongoClient;
+    private final AppointmentRepository appointmentRepository;
     
     @Value("${mongodb.uri:not-configured}")
     private String mongoUri;
@@ -25,8 +24,8 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
     @Value("${username:not-set}")
     private String username;
 
-    public DatabaseConnectionChecker(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
+    public DatabaseConnectionChecker(AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
     }
 
     @Override
@@ -40,33 +39,19 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
         LOG.info("Username: {}", username);
         
         try {
-            // Test database connection
-            MongoDatabase database = mongoClient.getDatabase("appointments");
-            
-            // Try to ping the database
-            database.runCommand(new org.bson.Document("ping", 1));
+            // Test database connection by trying to count appointments
+            long count = appointmentRepository.count();
             
             LOG.info("✅ Database connection successful!");
-            LOG.info("Connected to database: {}", database.getName());
-            
-            // List collections to verify access
-            var collections = database.listCollectionNames();
-            LOG.info("Available collections: {}", collections.into(new java.util.ArrayList<>()));
+            LOG.info("Current appointment count: {}", count);
             
         } catch (Exception e) {
             LOG.error("❌ Database connection failed!", e);
             LOG.error("Error details: {}", e.getMessage());
+            LOG.error("Error class: {}", e.getClass().getSimpleName());
             
-            // Log additional debugging info
-            try {
-                LOG.info("Attempting to get cluster description...");
-                var clusterDescription = mongoClient.getClusterDescription();
-                LOG.info("Cluster type: {}", clusterDescription.getType());
-                LOG.info("Cluster connection mode: {}", clusterDescription.getConnectionMode());
-                LOG.info("Server descriptions: {}", clusterDescription.getServerDescriptions());
-            } catch (Exception ex) {
-                LOG.error("Could not get cluster info: {}", ex.getMessage());
-            }
+            // Log the full stack trace for debugging
+            LOG.error("Full stack trace:", e);
         }
         
         LOG.info("=== END DATABASE CONNECTION CHECK ===");
