@@ -12,8 +12,9 @@ export class AuthTokenService {
     constructor(private oidcSecurityService : OidcSecurityService) {}
 
     getHeaders() {
-        return this.oidcSecurityService.getIdToken().pipe(
+        return this.oidcSecurityService.getAccessToken().pipe(
             map(token => {
+                console.log('Sending access token:', token ? 'Token present' : 'No token');
                 return {
                     headers: new HttpHeaders({
                         "Content-Type": "application/json",

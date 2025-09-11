@@ -4,11 +4,27 @@ micronaut:
   server:
     cors:
       enabled: true
+      configurations:
+        all:
+          allowed-origins:
+            - "http://localhost:4200"
+            - "https://d15dzv70fdtos7.cloudfront.net"
+          allowed-methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - OPTIONS
+          allowed-headers:
+            - "*"
+          allow-credentials: true
+          max-age: 3600
     port: 8080
   serde:
     serialization:
       inclusion: ALWAYS
   security:
+    authentication: bearer
     token:
       roles-name: "cognito:groups"
       name-key: "sub"

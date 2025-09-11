@@ -9,7 +9,7 @@ import { AppointmentListComponent } from "../../components/page/appointment-list
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "/login",
+    component: LoginComponent,
     pathMatch: "full"
   },
   {
