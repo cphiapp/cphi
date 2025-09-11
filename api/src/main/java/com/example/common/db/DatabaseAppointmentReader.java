@@ -3,7 +3,7 @@ package com.example.common.db;
 import com.example.appointment.dao.Appointment;
 import com.example.appointment.dao.AppointmentRepository;
 import com.example.common.exception.EntityNotFoundException;
-import io.micronaut.security.authentication.Authentication;
+
 import jakarta.inject.Singleton;
 import java.util.List;
 
@@ -21,8 +21,8 @@ public class DatabaseAppointmentReader {
                 .orElseThrow(() -> new EntityNotFoundException("Appointment " + appointmentId + " is not found."));
     }
 
-    public List<Appointment> getAppointmentsOfUser(Authentication authentication) {
-        return appointmentRepository.findAllByUserId(authentication.getName());
+    public List<Appointment> getAppointmentsOfUser(String userId) {
+        return appointmentRepository.findAllByUserId(userId);
     }
 
     public List<Appointment> getAppointmentsWithIdPrefix(String id) {

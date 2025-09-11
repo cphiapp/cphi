@@ -20,10 +20,7 @@ import { MatDividerModule } from "@angular/material/divider"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
 
-import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
-import { firstValueFrom } from 'rxjs';
-
-import { cognitoAuthConfig } from "./app/services/auth/auth.config"
+// Authentication disabled
 import { AppComponent } from "./app/components/page/app/app.component"
 import { AppointmentCreateFormDialogComponent } from "./app/components/element/appointment-create-form/appointment-create-form.component"
 import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
@@ -34,12 +31,7 @@ import { ProfileComponent } from "./app/components/page/profile/profile.componen
 import { SettingsComponent } from "./app/components/page/settings/settings.component"
 
 
-export function initializeAuth(oidcSecurityService: OidcSecurityService) {
-  return () =>
-    firstValueFrom(
-      oidcSecurityService.checkAuth().pipe()
-    ); // resolves once auth is checked
-}
+// Authentication initialization removed
 
 @NgModule({
   declarations: [
@@ -52,9 +44,7 @@ export function initializeAuth(oidcSecurityService: OidcSecurityService) {
     SettingsComponent,
   ],
   imports: [
-    AuthModule.forRoot(
-      cognitoAuthConfig
-    ),    
+    
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -77,12 +67,7 @@ export function initializeAuth(oidcSecurityService: OidcSecurityService) {
     ReactiveFormsModule
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAuth,
-      deps: [OidcSecurityService],
-      multi: true,
-    },
+    // Authentication provider removed
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

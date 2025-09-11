@@ -1,8 +1,6 @@
 package com.example.appointment.controller;
 
-import static com.example.common.security.Roles.ROLE_ADMIN;
 import static io.micronaut.http.HttpResponse.ok;
-import static io.micronaut.security.rules.SecurityRule.IS_AUTHENTICATED;
 
 import com.example.appointment.controller.dto.response.GetAppointmentsResponse;
 import com.example.appointment.controller.services.AppointmentService;
@@ -12,11 +10,8 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
-import io.micronaut.security.annotation.Secured;
-import io.micronaut.security.authentication.Authentication;
 
 @Controller("/api/v1/appointments/{appointmentId}")
-// @Secured(IS_AUTHENTICATED) // Temporarily disabled for testing
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
@@ -29,15 +24,14 @@ public class AppointmentController {
     }
 
     @Get
-    // @Secured({ROLE_ADMIN}) // Temporarily disabled for testing
     public GetAppointmentsResponse getAppointmentsWithPattern(@PathVariable String appointmentId) {
         var appointments = appointmentService.getAppointmentsWithPattern(appointmentId);
         return converter.convert(appointments);
     }
 
     @Delete
-    public HttpResponse<?> closeAppointment(Authentication authentication, @PathVariable String appointmentId) {
-        appointmentService.cancelAppointment(authentication, appointmentId);
+    public HttpResponse<?> closeAppointment(@PathVariable String appointmentId) {
+        appointmentService.cancelAppointment(appointmentId);
         return ok();
     }
 }

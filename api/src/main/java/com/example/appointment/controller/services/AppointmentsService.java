@@ -5,7 +5,7 @@ import com.example.appointment.dao.Appointment;
 import com.example.appointment.services.converter.CreateAppointmentRequestToAppointmentConverter;
 import com.example.appointment.services.db.DatabaseAppointmentWriter;
 import com.example.common.db.DatabaseAppointmentReader;
-import io.micronaut.security.authentication.Authentication;
+
 import jakarta.inject.Singleton;
 import java.util.List;
 
@@ -24,14 +24,14 @@ public class AppointmentsService {
         this.createAppointmentConverter = createAppointmentConverter;
     }
 
-    public Appointment createAppointment(Authentication authentication, CreateAppointmentRequest request) {
-        // Use dummy user for testing when authentication is disabled
-        String userName = authentication != null ? authentication.getName() : "test-user";
+    public Appointment createAppointment(CreateAppointmentRequest request) {
+        // Use fixed test user since authentication is disabled
+        String userName = "test-user";
         var appointment = createAppointmentConverter.convert(userName, request);
         return databaseAppointmentWriter.createAppointment(appointment);
     }
 
-    public List<Appointment> getAppointments(Authentication authentication) {
-        return databaseAppointmentReader.getAppointmentsOfUser(authentication);
+    public List<Appointment> getAppointments() {
+        return databaseAppointmentReader.getAppointmentsOfUser("test-user");
     }
 }

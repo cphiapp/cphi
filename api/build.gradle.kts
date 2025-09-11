@@ -13,13 +13,11 @@ repositories {
 dependencies {
     annotationProcessor(mn.micronaut.data.document.processor)
     annotationProcessor(mn.micronaut.http.validation)
-    annotationProcessor(mn.micronaut.security.annotations)
     annotationProcessor(mn.micronaut.serde.processor)
     annotationProcessor(mn.micronaut.validation.processor)
     implementation(mn.micronaut.data.mongodb)
     implementation(mn.micronaut.management)
     implementation(mn.reactor)
-    implementation(mn.micronaut.security.jwt)
     implementation(mn.micronaut.validation)
     runtimeOnly(mn.logback.classic)
     runtimeOnly(mn.micronaut.discovery.client)
