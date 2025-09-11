@@ -12,13 +12,13 @@ public class MongoUriBuilder implements ApplicationEventListener<ServerStartupEv
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoUriBuilder.class);
 
-    @Value("${DATABASE_URL:localhost:27017}")
+    @Value("${DATABASE_URL}")
     private String databaseUrl;
     
-    @Value("${username:}")
+    @Value("${DB_USERNAME:}")
     private String username;
     
-    @Value("${password:}")
+    @Value("${DB_PASSWORD:}")
     private String password;
 
     @Override

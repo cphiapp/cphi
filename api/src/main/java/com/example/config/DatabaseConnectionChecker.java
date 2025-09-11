@@ -18,10 +18,10 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
     @Value("${mongodb.uri:not-configured}")
     private String mongoUri;
     
-    @Value("${DATABASE_URL:not-set}")
+    @Value("${DATABASE_URL}")
     private String databaseUrl;
     
-    @Value("${username:not-set}")
+    @Value("${DB_USERNAME:not-set}")
     private String username;
 
     public DatabaseConnectionChecker(AppointmentRepository appointmentRepository) {
