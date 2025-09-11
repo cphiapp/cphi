@@ -52,7 +52,7 @@ export class AppointmentCreateFormDialogComponent {
       return
     }
     
-    // Get the date value (already in YYYY-MM-DD format)
+    // Get the date value (in YYYY-MM-DD format, will convert to full timestamp)
     const appointmentTime = this.appointmentCreateForm.get('appointmentTime')?.value
     if (!appointmentTime) {
       this.errorMessage = "Please select an appointment date"
@@ -69,9 +69,13 @@ export class AppointmentCreateFormDialogComponent {
       return
     }
     
-    // Send the date in YYYY-MM-DD format (as expected by backend)
+    // Convert date to full timestamp format (backend expects yyyy-MM-dd'T'HH:mm:ss)
+    // Default to 9:00 AM for the appointment time
+    const fullTimestamp = appointmentTime + 'T09:00:00'
+    console.log('Converted timestamp:', fullTimestamp)
+    
     let request = new CreateAppointmentRequest({
-      appointmentTime: appointmentTime
+      appointmentTime: fullTimestamp
     })
     
     console.log('Creating appointment with request:', request)

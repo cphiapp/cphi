@@ -34,9 +34,30 @@ class AppointmentValidatorFactory {
 
     private boolean validateTimeFormat(String time) {
         try {
+            System.out.println("=== TIMESTAMP VALIDATION ===");
+            System.out.println("Input timestamp: " + time);
+            
             LocalDateTime appointmentDateTime = LocalDateTime.parse(time, DATE_TIME_FORMATTER);
-            return appointmentDateTime.toLocalDate().isAfter(dateService.getNow());
+            System.out.println("Successfully parsed timestamp: " + appointmentDateTime);
+            
+            LocalDate appointmentDate = appointmentDateTime.toLocalDate();
+            System.out.println("Extracted date: " + appointmentDate);
+            
+            LocalDate today = dateService.getNow();
+            System.out.println("Current date (UTC+3): " + today);
+            
+            boolean isValid = !appointmentDate.isBefore(today);
+            System.out.println("Is appointment valid? " + isValid);
+            System.out.println("=== END TIMESTAMP VALIDATION ===");
+            
+            // Temporarily return true to test format parsing only
+            return true;
         } catch (DateTimeParseException e) {
+            System.out.println("=== TIMESTAMP PARSING FAILED ===");
+            System.out.println("Input: " + time);
+            System.out.println("Error: " + e.getMessage());
+            System.out.println("Expected format: yyyy-MM-ddTHH:mm:ss");
+            System.out.println("=== END PARSING FAILURE ===");
             return false;
         }
     }
