@@ -14,8 +14,8 @@ import java.time.format.ResolverStyle;
 @Factory
 class AppointmentValidatorFactory {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-            .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
 
     private final DateService dateService;
 
@@ -51,8 +51,7 @@ class AppointmentValidatorFactory {
             System.out.println("Is appointment valid? " + isValid);
             System.out.println("=== END TIMESTAMP VALIDATION ===");
             
-            // Temporarily return true to test format parsing only
-            return true;
+            return isValid;
         } catch (DateTimeParseException e) {
             System.out.println("=== TIMESTAMP PARSING FAILED ===");
             System.out.println("Input: " + time);
