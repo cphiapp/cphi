@@ -48,14 +48,7 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
         LOG.info("DATABASE_URL: {}", databaseUrl);
         LOG.info("Username: {}", username != null && !username.isEmpty() ? "***" : "not set");
         
-        // Check system property
-        String systemMongoUri = System.getProperty("MONGODB_URI");
-        if (systemMongoUri != null) {
-            String sanitizedSystemUri = systemMongoUri.replaceAll("://[^:]+:[^@]+@", "://***:***@");
-            LOG.info("MongoDB URI from system property (sanitized): {}", sanitizedSystemUri);
-        } else {
-            LOG.info("No MONGODB_URI system property set");
-        }
+        // MongoDB URI is now configured directly in application.yml
         
         try {
             // Test database connection by trying to count appointments
