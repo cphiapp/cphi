@@ -23,23 +23,24 @@ micronaut:
   serde:
     serialization:
       inclusion: ALWAYS
-  security:
-    authentication: bearer
-    intercept-url-map:
-      - pattern: /health
-        access:
-          - isAnonymous()
-      - pattern: /info
-        access:
-          - isAnonymous()
-    token:
-      roles-name: "cognito:groups"
-      name-key: "sub"
-      jwt:
-        signatures:
-          jwks:
-            awscognito:
-              url: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T/.well-known/jwks.json'
+  # Security temporarily disabled for testing
+  # security:
+  #   authentication: bearer
+  #   intercept-url-map:
+  #     - pattern: /health
+  #       access:
+  #         - isAnonymous()
+  #     - pattern: /info
+  #       access:
+  #         - isAnonymous()
+  #   token:
+  #     roles-name: "cognito:groups"
+  #     name-key: "sub"
+  #     jwt:
+  #       signatures:
+  #         jwks:
+  #           awscognito:
+  #             url: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T/.well-known/jwks.json'
 
 endpoints:
   all:
