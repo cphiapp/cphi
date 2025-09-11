@@ -54,4 +54,16 @@ endpoints:
     sensitive: false
 
 mongodb:
-  uri: "mongodb://${DB_USERNAME:admin}:${DB_PASSWORD:password}@${DATABASE_URL:localhost:27017}/${DB_NAME:appointments}?ssl=${SSL_ENABLED:false}&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+  servers:
+    - host: ${DATABASE_URL:localhost}
+      port: 27017
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
+  database: ${DB_NAME:appointments}
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+  options:
+    replicaSet: rs0
+    readPreference: secondaryPreferred
+    retryWrites: false
+  
