@@ -1,45 +1,91 @@
 package com.example.config;
 
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.json.JsonMapper;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+@Factory
 public class MongoCredentialsEncoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoCredentialsEncoder.class);
+    private final JsonMapper jsonMapper;
 
-    static {
-        encodeCredentials();
+    public MongoCredentialsEncoder(JsonMapper jsonMapper) {
+        this.jsonMapper = jsonMapper;
     }
 
-    private static void encodeCredentials() {
+    // DTO class to hold credentials from JSON
+    public static class DbCredentials {
+        private String username;
+        private String password;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
+    @Singleton
+    @Requires(property = "DB_USERNAME")
+    public DbCredentials dbCredentials(@Value("${DB_USERNAME}") String json) {
         try {
-            String username = System.getenv("DB_USERNAME");
-            String password = System.getenv("DB_PASSWORD");
-            String databaseUrl = System.getenv("DATABASE_URL");
-            
-            if (username != null && password != null && databaseUrl != null) {
-                LOG.info("=== ENCODING MONGODB CREDENTIALS ===");
-                LOG.info("Raw username length: {}", username.length());
-                LOG.info("Raw password length: {}", password.length());
-                
-                // URL encode the credentials
-                String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8);
-                String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8);
-                
-                // Set encoded values as system properties
-                System.setProperty("ENCODED_DB_USERNAME", encodedUsername);
-                System.setProperty("ENCODED_DB_PASSWORD", encodedPassword);
-                
-                LOG.info("Set encoded credentials as system properties");
-                LOG.info("=== END ENCODING MONGODB CREDENTIALS ===");
-            } else {
-                LOG.warn("Missing MongoDB environment variables - skipping credential encoding");
+            LOG.info("Parsing DB_USERNAME as JSON secret.");
+            DbCredentials credentials = jsonMapper.readValue(json, DbCredentials.class);
+            if (credentials.getUsername() == null || credentials.getPassword() == null) {
+                LOG.error("Parsed credentials JSON is missing 'username' or 'password' field.");
+                throw new IllegalStateException("Parsed credentials JSON is missing 'username' or 'password' field.");
             }
+            LOG.info("Successfully parsed credentials from JSON.");
+            return credentials;
+        } catch (IOException e) {
+            LOG.error("Failed to parse DB_USERNAME JSON secret", e);
+            throw new RuntimeException("Failed to parse DB_USERNAME JSON secret", e);
+        }
+    }
+
+    @Bean
+    @Singleton
+    public String encodedDbUsername(DbCredentials credentials) {
+        LOG.info("Encoding username from parsed secret.");
+        return encode(credentials.getUsername());
+    }
+
+    @Bean
+    @Singleton
+    public String encodedDbPassword(DbCredentials credentials) {
+        LOG.info("Encoding password from parsed secret.");
+        return encode(credentials.getPassword());
+    }
+
+    private String encode(String value) {
+        if (value == null) {
+            return "";
+        }
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8);
         } catch (Exception e) {
-            LOG.error("Failed to encode MongoDB credentials", e);
+            LOG.error("Failed to URL encode value", e);
+            return value; // Fallback to original value
         }
     }
 }
