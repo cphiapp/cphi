@@ -24,16 +24,18 @@ export class CognitoAuthService {
   }
 
   logout(): void {
-    // Clear session storage
-    if (window.sessionStorage) {
-      window.sessionStorage.clear();
-    }
-    
-    // Use the hosted UI logout URL
-    const clientId = '1dheen19kd0a5i5364ip8e43v1';
-    const logoutUri = encodeURIComponent('https://d15dzv70fdtos7.cloudfront.net');
-    const logoutUrl = `https://us-east-1be7maqc5t.auth.us-east-1.amazoncognito.com/logout?client_id=${clientId}&logout_uri=${logoutUri}`;
-    
-    window.location.href = logoutUrl;
+    console.log('Initiating logout...')
+    this.oidcSecurityService.logoff().subscribe({
+      next: (result) => {
+        console.log('Logout successful:', result)
+      },
+      error: (err) => {
+        console.error('Logout error:', err)
+        // Clear local storage and force redirect
+        localStorage.clear()
+        sessionStorage.clear()
+        window.location.href = '/login'
+      }
+    });
   }
 }

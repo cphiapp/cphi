@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from "@angular/core"
+import { Router } from "@angular/router"
 import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 
@@ -16,7 +17,7 @@ export class MenubarComponent implements OnInit {
   userEmail = ''
   userName = ''
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     // Subscribe to authentication status
@@ -41,5 +42,13 @@ export class MenubarComponent implements OnInit {
 
   logout() {
     this.cognitoAuthService.logout()
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile'])
+  }
+
+  goToSettings() {
+    this.router.navigate(['/settings'])
   }
 }

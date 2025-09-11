@@ -1,67 +1,142 @@
-<div class="container-fluid content menubarpush">
-  <div class="row">
-    <div class="col">
-      <h1 class="center">Appointments</h1>
-      <div class="col-sm-12">
-        <div class="center error">{{errorMessage}}</div>
-        <div class="center">
-          <table mat-table [dataSource]="appointmentsData">
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef>Identifier</th>
-              <td mat-cell *matCellDef="let appointment">{{appointment.getId()}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef>Date</th>
-              <td mat-cell *matCellDef="let appointment">{{appointment.getAppointmentTime()}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td mat-cell *matCellDef="let appointment">{{appointment.getStatus()}}</td>
-            </ng-container>               
-
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let appointment">
-                <button mat-icon-button *ngIf="isEditable(appointment)" (click)="closeAppointment(appointment)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="columns"></tr>
-            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-          </table>
-          <mat-paginator
-            #paginator
-            [pageSize]="10"
-            [pageSizeOptions]="[10, 25, 50]"
-            showFirstLastButtons>
-          </mat-paginator>
-
-          <ng-container
-            *ngIf="isAdmin; then adminBottom; else userBottom">
-          </ng-container>
-
-          <ng-template #adminBottom>
-            <div>
-              <form spellcheck="false" [formGroup]="searchForm">
-                <mat-form-field>
-                  <mat-label>Id</mat-label>
-                  <input matInput type="text" formControlName="pattern" autocomplete="false">
-                </mat-form-field>
-              </form>              
-              <button mat-raised-button color="primary" (click)="searchAppointments()">Search appointments</button>
-            </div>
-          </ng-template>
-          <ng-template #userBottom>
-            <div>
-              <button mat-raised-button color="primary" (click)="openAppointmentNewDialog()">Create appointment</button>
-            </div>
-          </ng-template>          
-        </div>
+<div class="appointments-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-title">
+        <mat-icon class="header-icon">event</mat-icon>
+        <h1>Appointments</h1>
       </div>
+      <div class="header-subtitle">
+        <p>Manage your appointments and schedule</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content-section">
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">
+      <mat-icon>error</mat-icon>
+      <span>{{errorMessage}}</span>
+    </div>
+
+    <!-- Appointments Table -->
+    <div class="table-container">
+      <mat-table [dataSource]="appointmentsData" class="appointments-table">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="header-cell">
+              <mat-icon>fingerprint</mat-icon>
+              <span>Identifier</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let appointment">
+            <div class="cell-content">
+              <span class="appointment-id">{{appointment.getId()}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="header-cell">
+              <mat-icon>schedule</mat-icon>
+              <span>Date & Time</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let appointment">
+            <div class="cell-content">
+              <span class="appointment-date">{{appointment.getAppointmentTime()}}</span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="header-cell">
+              <mat-icon>info</mat-icon>
+              <span>Status</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let appointment">
+            <div class="cell-content">
+              <span class="status-badge" [class]="'status-' + appointment.getStatus().toLowerCase()">
+                {{appointment.getStatus()}}
+              </span>
+            </div>
+          </mat-cell>
+        </ng-container>               
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>
+            <div class="header-cell">
+              <mat-icon>settings</mat-icon>
+              <span>Actions</span>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let appointment">
+            <div class="actions-cell">
+              <button mat-icon-button 
+                      *ngIf="isEditable(appointment)" 
+                      (click)="closeAppointment(appointment)"
+                      class="delete-btn"
+                      matTooltip="Cancel Appointment">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columns" class="table-header"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns;" class="table-row"></mat-row>
+      </mat-table>
+
+      <!-- Paginator -->
+      <mat-paginator
+        #paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        showFirstLastButtons
+        class="table-paginator">
+      </mat-paginator>
+    </div>
+
+    <!-- Action Sections -->
+    <div class="action-section">
+      <ng-container *ngIf="isAdmin; then adminActions; else userActions"></ng-container>
+
+      <ng-template #adminActions>
+        <div class="admin-panel">
+          <h3>
+            <mat-icon>admin_panel_settings</mat-icon>
+            Admin Tools
+          </h3>
+          <div class="search-section">
+            <form [formGroup]="searchForm" class="search-form">
+              <mat-form-field appearance="outline" class="search-field">
+                <mat-label>Search by Appointment ID</mat-label>
+                <input matInput type="text" formControlName="pattern" placeholder="Enter appointment ID">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+              <button mat-raised-button color="primary" (click)="searchAppointments()" class="search-btn">
+                <mat-icon>search</mat-icon>
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #userActions>
+        <div class="user-panel">
+          <div class="create-section">
+            <button mat-raised-button color="primary" (click)="openAppointmentNewDialog()" class="create-btn">
+              <mat-icon>add</mat-icon>
+              Create New Appointment
+            </button>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

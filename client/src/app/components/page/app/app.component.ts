@@ -14,16 +14,24 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Handle initial routing based on authentication status
-    this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
-      const currentUrl = this.router.url
-      
-      if (isAuthenticated && (currentUrl === '/' || currentUrl === '/login')) {
-        // If authenticated and on root or login page, redirect to appointments
-        this.router.navigate(['/appointments'])
-      } else if (!isAuthenticated && currentUrl !== '/login' && currentUrl !== '/') {
-        // If not authenticated and trying to access protected route, redirect to login
-        this.router.navigate(['/login'])
-      }
-    })
+    // Add delay to allow OAuth callback processing
+    setTimeout(() => {
+      this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
+        const currentUrl = this.router.url
+        
+        // Don't redirect if URL contains OAuth callback parameters
+        if (currentUrl.includes('code=') || currentUrl.includes('state=')) {
+          return;
+        }
+        
+        if (isAuthenticated && (currentUrl === '/' || currentUrl === '/login')) {
+          // If authenticated and on root or login page, redirect to appointments
+          this.router.navigate(['/appointments'])
+        } else if (!isAuthenticated && currentUrl !== '/login' && currentUrl !== '/') {
+          // If not authenticated and trying to access protected route, redirect to login
+          this.router.navigate(['/login'])
+        }
+      })
+    }, 1000); // Give OAuth callback time to process
   }
 }

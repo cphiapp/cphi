@@ -1,0 +1,70 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="header-content">
+      <div class="profile-avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="profile-info">
+        <h1>{{ userName }}</h1>
+        <p class="profile-email">{{ userEmail }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-section">
+      <h2>
+        <mat-icon>person</mat-icon>
+        Personal Information
+      </h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Full Name</label>
+          <span>{{ userName }}</span>
+        </div>
+        <div class="info-item">
+          <label>Email Address</label>
+          <span>{{ userEmail }}</span>
+        </div>
+        <div class="info-item" *ngIf="userGivenName">
+          <label>First Name</label>
+          <span>{{ userGivenName }}</span>
+        </div>
+        <div class="info-item" *ngIf="userFamilyName">
+          <label>Last Name</label>
+          <span>{{ userFamilyName }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-section">
+      <h2>
+        <mat-icon>security</mat-icon>
+        Account Security
+      </h2>
+      <div class="security-info">
+        <div class="security-item">
+          <mat-icon>verified_user</mat-icon>
+          <div>
+            <h3>Account Verified</h3>
+            <p>Your account has been verified and is secure</p>
+          </div>
+        </div>
+        <div class="security-item">
+          <mat-icon>lock</mat-icon>
+          <div>
+            <h3>Password Protected</h3>
+            <p>Your account is protected with secure authentication</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button mat-raised-button color="primary" routerLink="/appointments">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Appointments
+      </button>
+    </div>
+  </div>
+</div>

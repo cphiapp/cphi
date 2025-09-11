@@ -1,0 +1,233 @@
+/* Settings Page Styling */
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding: 24px;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(30, 60, 114, 0.3);
+}
+
+.settings-header h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.settings-header h1 mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.settings-header p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.settings-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.settings-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 24px 0;
+  color: #1e3c72;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.settings-section h2 mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.setting-info {
+  flex: 1;
+}
+
+.setting-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.setting-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.setting-item mat-form-field {
+  min-width: 150px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.form-actions button {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 12px 24px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.3);
+  transition: all 0.3s ease;
+}
+
+.form-actions button:hover {
+  background: linear-gradient(135deg, #1a3366 0%, #245086 100%);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.4);
+  transform: translateY(-1px);
+}
+
+.form-actions button mat-icon {
+  margin-right: 8px;
+}
+
+.account-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.account-actions button {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 16px;
+  font-weight: 500;
+}
+
+.account-actions button mat-icon {
+  margin-right: 8px;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}
+
+.settings-actions button {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  padding: 12px 24px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.3);
+  transition: all 0.3s ease;
+}
+
+.settings-actions button:hover {
+  background: linear-gradient(135deg, #1a3366 0%, #245086 100%);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.4);
+  transform: translateY(-1px);
+}
+
+.settings-actions button mat-icon {
+  margin-right: 8px;
+}
+
+/* Material Design Overrides */
+::ng-deep .mat-mdc-slide-toggle.mat-primary {
+  --mdc-switch-selected-track-color: #1e3c72;
+  --mdc-switch-selected-handle-color: #1e3c72;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline-thick {
+  color: #1e3c72;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: #1e3c72;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 16px;
+  }
+  
+  .settings-section {
+    padding: 16px;
+  }
+  
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .setting-item mat-form-field {
+    width: 100%;
+  }
+  
+  .account-actions {
+    flex-direction: column;
+  }
+  
+  .account-actions button {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-header {
+    padding: 20px;
+  }
+  
+  .settings-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .form-actions {
+    justify-content: center;
+  }
+}

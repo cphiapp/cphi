@@ -1,0 +1,123 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>
+      <mat-icon>settings</mat-icon>
+      Settings
+    </h1>
+    <p>Customize your CPHI App experience</p>
+  </div>
+
+  <div class="settings-content">
+    
+    <!-- Notifications Section -->
+    <div class="settings-section">
+      <h2>
+        <mat-icon>notifications</mat-icon>
+        Notifications
+      </h2>
+      <form [formGroup]="notificationForm" class="settings-form">
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Email Notifications</h3>
+            <p>Receive important updates via email</p>
+          </div>
+          <mat-slide-toggle formControlName="emailNotifications" color="primary"></mat-slide-toggle>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Appointment Reminders</h3>
+            <p>Get reminded about upcoming appointments</p>
+          </div>
+          <mat-slide-toggle formControlName="appointmentReminders" color="primary"></mat-slide-toggle>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>System Updates</h3>
+            <p>Notifications about system maintenance and updates</p>
+          </div>
+          <mat-slide-toggle formControlName="systemUpdates" color="primary"></mat-slide-toggle>
+        </div>
+        
+        <div class="form-actions">
+          <button mat-raised-button color="primary" (click)="saveNotificationSettings()">
+            <mat-icon>save</mat-icon>
+            Save Notification Settings
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Appearance Section -->
+    <div class="settings-section">
+      <h2>
+        <mat-icon>palette</mat-icon>
+        Appearance
+      </h2>
+      <form [formGroup]="appearanceForm" class="settings-form">
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Theme</h3>
+            <p>Choose your preferred color scheme</p>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Theme</mat-label>
+            <mat-select formControlName="theme">
+              <mat-option value="light">Light</mat-option>
+              <mat-option value="dark">Dark</mat-option>
+              <mat-option value="auto">Auto</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-info">
+            <h3>Language</h3>
+            <p>Select your preferred language</p>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="language">
+              <mat-option value="en">English</mat-option>
+              <mat-option value="es">Español</mat-option>
+              <mat-option value="fr">Français</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        
+        <div class="form-actions">
+          <button mat-raised-button color="primary" (click)="saveAppearanceSettings()">
+            <mat-icon>save</mat-icon>
+            Save Appearance Settings
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Account Section -->
+    <div class="settings-section">
+      <h2>
+        <mat-icon>account_circle</mat-icon>
+        Account
+      </h2>
+      <div class="account-actions">
+        <button mat-stroked-button color="primary" routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          View Profile
+        </button>
+        <button mat-stroked-button color="warn">
+          <mat-icon>lock_reset</mat-icon>
+          Change Password
+        </button>
+      </div>
+    </div>
+
+    <div class="settings-actions">
+      <button mat-raised-button color="primary" routerLink="/appointments">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Appointments
+      </button>
+    </div>
+  </div>
+</div>

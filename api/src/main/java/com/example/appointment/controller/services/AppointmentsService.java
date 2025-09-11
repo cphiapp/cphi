@@ -25,7 +25,9 @@ public class AppointmentsService {
     }
 
     public Appointment createAppointment(Authentication authentication, CreateAppointmentRequest request) {
-        var appointment = createAppointmentConverter.convert(authentication.getName(), request);
+        // Use dummy user for testing when authentication is disabled
+        String userName = authentication != null ? authentication.getName() : "test-user";
+        var appointment = createAppointmentConverter.convert(userName, request);
         return databaseAppointmentWriter.createAppointment(appointment);
     }
 

@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080'
+  // Temporarily use localhost if AWS backend is down
+  // apiUrl: 'https://cphi-alb-721046433.us-east-1.elb.amazonaws.com'
 }
 
 /*

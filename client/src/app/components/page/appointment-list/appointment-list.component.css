@@ -1,0 +1,324 @@
+/* CPHI Appointments Page Styling */
+.appointments-container {
+  padding-top: 70px; /* Account for fixed navbar */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Page Header */
+.page-header {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px 0;
+  margin-bottom: 30px;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.header-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #1e3c72;
+}
+
+.header-title h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1e3c72;
+  margin: 0;
+}
+
+.header-subtitle p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Content Section */
+.content-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c62828;
+}
+
+.error-message mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Table Container */
+.table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.appointments-table {
+  width: 100%;
+}
+
+/* Table Header */
+.table-header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.table-header .mat-mdc-header-cell {
+  color: white;
+  font-weight: 600;
+  border-bottom: none;
+}
+
+.header-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-cell mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+}
+
+/* Table Rows */
+.table-row {
+  transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+  background-color: #f8f9fa;
+}
+
+.table-row:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+/* Table Cells */
+.mat-mdc-cell {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cell-content {
+  display: flex;
+  align-items: center;
+}
+
+.appointment-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #1e3c72;
+  background: #e3f2fd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.appointment-date {
+  font-weight: 500;
+  color: #333;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-active {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.status-pending {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.status-completed {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-cancelled {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* Actions */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.delete-btn {
+  color: #d32f2f;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Paginator */
+.table-paginator {
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Action Section */
+.action-section {
+  margin-top: 30px;
+}
+
+.admin-panel,
+.user-panel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.admin-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e3c72;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.admin-panel h3 mat-icon {
+  color: #ffd700;
+}
+
+/* Search Section */
+.search-section {
+  margin-top: 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.search-field {
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-btn {
+  height: 56px;
+  padding: 0 24px;
+}
+
+.search-btn mat-icon {
+  margin-right: 8px;
+}
+
+/* User Panel */
+.create-section {
+  text-align: center;
+}
+
+.create-btn {
+  height: 48px;
+  padding: 0 32px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.create-btn mat-icon {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .appointments-container {
+    padding-top: 70px;
+  }
+  
+  .header-content,
+  .content-section {
+    padding: 0 15px;
+  }
+  
+  .header-title h1 {
+    font-size: 2rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-btn {
+    height: 48px;
+    margin-top: 16px;
+  }
+  
+  .mat-mdc-cell,
+  .mat-mdc-header-cell {
+    padding: 12px 8px;
+  }
+  
+  .header-cell span {
+    display: none;
+  }
+  
+  .appointment-id {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .header-title h1 {
+    font-size: 1.8rem;
+  }
+  
+  .admin-panel,
+  .user-panel {
+    padding: 20px 15px;
+  }
+}

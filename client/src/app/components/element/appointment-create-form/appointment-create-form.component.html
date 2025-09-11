@@ -1,15 +1,48 @@
-<div class="container-fluid content">
-    <div class="row">
-        <div class="col">
-            <h1 class="center">Create Appointment</h1>
-            <div class ="center error">{{errorMessage}}</div>
-            <form spellcheck="false" class="center" [formGroup]="appointmentCreateForm" (ngSubmit)="onAppointmentCreateFormSubmit()">
-                <mat-form-field>
-                    <mat-label>Date</mat-label>
-                    <input matInput type="text" autocomplete="off" formControlName="appointmentTime" placeholder="2000-01-01">
-                </mat-form-field>
-                <button mat-raised-button color="primary" type="submit">Create Appointment</button>
-            </form>
-        </div>
-    </div>
+<div class="dialog-header">
+  <h2 mat-dialog-title>
+    <mat-icon class="dialog-icon">event_note</mat-icon>
+    Create New Appointment
+  </h2>
+  <p class="dialog-subtitle">Schedule your appointment with CPHI</p>
 </div>
+
+<mat-dialog-content class="dialog-content">
+  <div class="center error" *ngIf="errorMessage">{{errorMessage}}</div>
+  <form [formGroup]="appointmentForm" class="appointment-form" (ngSubmit)="onAppointmentCreateFormSubmit()">
+    <div class="form-section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Appointment Date</mat-label>
+        <input matInput 
+               type="date" 
+               formControlName="appointmentTime" 
+               required
+               [min]="minDate"
+               placeholder="Select appointment date">
+        <mat-icon matSuffix>schedule</mat-icon>
+        <mat-hint>Choose your preferred appointment date (must be after today)</mat-hint>
+      </mat-form-field>
+    </div>
+    
+    <div class="form-info">
+      <mat-icon>info</mat-icon>
+      <span>Your appointment will be confirmed within 24 hours</span>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button mat-button 
+          (click)="onCancel()" 
+          class="cancel-btn">
+    <mat-icon>close</mat-icon>
+    Cancel
+  </button>
+  <button mat-raised-button 
+          color="primary" 
+          (click)="onAppointmentCreateFormSubmit()" 
+          [disabled]="!appointmentForm.valid"
+          class="create-btn">
+    <mat-icon>add</mat-icon>
+    Create Appointment
+  </button>
+</mat-dialog-actions>

@@ -13,8 +13,9 @@ import { Appointments } from "../../../entities/response/appointments-response"
 
 
 @Component({
-  selector: "app-project-list",
-  templateUrl: "./appointment-list.component.html"
+  selector: "app-appointment-list",
+  templateUrl: "./appointment-list.component.html",
+  styleUrls: ["./appointment-list.component.css"]
 })
 export class AppointmentListComponent {
 
@@ -81,9 +82,15 @@ export class AppointmentListComponent {
   }
 
   openAppointmentNewDialog() {
-    this.dialog.open(AppointmentCreateFormDialogComponent)
-      .updateSize("30%")
-      .afterClosed().subscribe(appointment => {
+    console.log('Opening appointment dialog...')
+    const dialogRef = this.dialog.open(AppointmentCreateFormDialogComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(appointment => {
+        console.log('Dialog closed with result:', appointment)
         if(appointment != null) {
           this.appointments.push(appointment)
           this.refreshAppointments()

@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from "@angular/common/http"
+import { HttpClient, HttpResponse, HttpHeaders } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, mergeMap } from "rxjs"
 
@@ -17,10 +17,30 @@ export class AppointmentService {
   constructor(private http: HttpClient,
               private authTokenService: AuthTokenService) { }
 
-  createAppointment(createAppointmentRequest: CreateAppointmentRequest): Observable<HttpResponse<Appointment>> {
-    return this.authTokenService.getHeaders().pipe(
-      mergeMap(headers => this.http.post<Appointment>(Endpoints.appointmentMapping, createAppointmentRequest, headers))
-    )
+  createAppointment(createAppointmentRequest: CreateAppointmentRequest): Observable<HttpResponse<any>> {
+    console.log('AppointmentService: Creating appointment request')
+    console.log('Endpoint URL:', Endpoints.appointmentMapping)
+    console.log('Request payload:', createAppointmentRequest)
+    
+    // Temporarily disable authentication for testing
+    const headers = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      }),
+      observe: 'response' as const
+    }
+    
+    console.log('AppointmentService: Making HTTP POST request without auth')
+    return this.http.post<any>(Endpoints.appointmentMapping, createAppointmentRequest, headers)
+    
+    // Original code with auth (commented out for testing):
+    // return this.authTokenService.getHeaders().pipe(
+    //   mergeMap(headers => {
+    //     console.log('AppointmentService: Headers obtained, making HTTP POST request')
+    //     console.log('Headers:', headers)
+    //     return this.http.post<any>(Endpoints.appointmentMapping, createAppointmentRequest, headers)
+    //   })
+    // )
   }
 
   getCurrentUserAppointments(): Observable<HttpResponse<Appointments>> {

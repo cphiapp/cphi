@@ -25,6 +25,13 @@ micronaut:
       inclusion: ALWAYS
   security:
     authentication: bearer
+    intercept-url-map:
+      - pattern: /health
+        access:
+          - isAnonymous()
+      - pattern: /info
+        access:
+          - isAnonymous()
     token:
       roles-name: "cognito:groups"
       name-key: "sub"
@@ -35,26 +42,15 @@ micronaut:
               url: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_BE7MaqC5T/.well-known/jwks.json'
 
 endpoints:
-  beans:
+  all:
     enabled: false
+    sensitive: false
+  health:
+    enabled: true
+    sensitive: false
   info:
-    enabled: false
-  loggers:
-    enabled: false
-  metrics:
-    enabled: false
-  refresh:
-    enabled: false
-  routes:
-    enabled: false
-  threaddump:
-    enabled: false
-  env:
-    enabled: false
-  caches:
-    enabled: false
-  stop:
-    enabled: false
+    enabled: true
+    sensitive: false
 
 mongodb:
   uri: ${MONGODB_URI}

@@ -14,6 +14,9 @@ import { MatSelectModule } from "@angular/material/select"
 import { MatTableModule } from "@angular/material/table"
 import { MatToolbarModule } from "@angular/material/toolbar"
 import { MatTooltipModule } from "@angular/material/tooltip"
+import { MatMenuModule } from "@angular/material/menu"
+import { MatSlideToggleModule } from "@angular/material/slide-toggle"
+import { MatDividerModule } from "@angular/material/divider"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
 
@@ -27,6 +30,8 @@ import { AppointmentListComponent } from "./app/components/page/appointment-list
 import { AppRoutingModule } from "./app/services/auth/app-routing.module"
 import { LoginComponent } from "./app/components/page/login/login.component"
 import { MenubarComponent } from "./app/components/element/menubar/menubar.component"
+import { ProfileComponent } from "./app/components/page/profile/profile.component"
+import { SettingsComponent } from "./app/components/page/settings/settings.component"
 
 
 export function initializeAuth(oidcSecurityService: OidcSecurityService) {
@@ -43,6 +48,8 @@ export function initializeAuth(oidcSecurityService: OidcSecurityService) {
     AppointmentListComponent,
     LoginComponent,
     MenubarComponent,
+    ProfileComponent,
+    SettingsComponent,
   ],
   imports: [
     AuthModule.forRoot(
@@ -64,6 +71,9 @@ export function initializeAuth(oidcSecurityService: OidcSecurityService) {
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatMenuModule,
+    MatSlideToggleModule,
+    MatDividerModule,
     ReactiveFormsModule
   ],
   providers: [

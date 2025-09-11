@@ -14,22 +14,48 @@
 
     <!-- Center Section: Navigation Links -->
     <div class="navbar-nav">
+      <button mat-button 
+              routerLink="/appointments" 
+              routerLinkActive="active"
+              class="nav-item">
+        <mat-icon>event</mat-icon>
+        <span>Appointments</span>
+      </button>
     </div>
 
-    <!-- Right Section: User Info and Logout -->
+    <!-- Right Section: User Info and Menu -->
     <div class="navbar-user">
-      <div class="user-info">
-        <div class="user-avatar">
-          <mat-icon>account_circle</mat-icon>
+      <button mat-button 
+              class="user-menu-btn" 
+              [matMenuTriggerFor]="userMenu"
+              matTooltip="User Menu">
+        <div class="user-info">
+          <div class="user-avatar">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{ userName }}</span>
+            <span class="user-email">{{ userEmail }}</span>
+          </div>
         </div>
-        <div class="user-details">
-          <span class="user-name">{{ userName }}</span>
-          <span class="user-email">{{ userEmail }}</span>
-        </div>
-      </div>
-      <button mat-icon-button class="logout-btn" (click)="logout()" matTooltip="Sign Out">
-        <mat-icon>logout</mat-icon>
+        <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
       </button>
+      
+      <mat-menu #userMenu="matMenu" class="user-dropdown">
+        <button mat-menu-item (click)="goToProfile()">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item (click)="goToSettings()">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sign Out</span>
+        </button>
+      </mat-menu>
     </div>
 
   </div>
