@@ -41,11 +41,11 @@
             "secrets": [
                 {
                     "name": "username",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h:username::"
                 },
                 {
                     "name": "password",
-                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h"
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:036346232890:secret:rds!cluster-e548e262-ebee-4319-9fb7-ea3bbbdc5e25-sMIN4h:password::"
                 }
             ],
             "healthCheck": {

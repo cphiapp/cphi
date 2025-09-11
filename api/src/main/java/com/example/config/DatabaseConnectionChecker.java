@@ -32,11 +32,30 @@ public class DatabaseConnectionChecker implements ApplicationEventListener<Serve
     public void onApplicationEvent(ServerStartupEvent event) {
         LOG.info("=== DATABASE CONNECTION CHECK ===");
         
+        // Log all environment variables for debugging
+        LOG.info("All environment variables:");
+        System.getenv().forEach((key, value) -> {
+            if (key.toLowerCase().contains("password") || key.toLowerCase().contains("secret")) {
+                LOG.info("  {}: ***", key);
+            } else {
+                LOG.info("  {}: {}", key, value);
+            }
+        });
+        
         // Log configuration (without password)
         String sanitizedUri = mongoUri.replaceAll("://[^:]+:[^@]+@", "://***:***@");
-        LOG.info("MongoDB URI (sanitized): {}", sanitizedUri);
+        LOG.info("MongoDB URI from config (sanitized): {}", sanitizedUri);
         LOG.info("DATABASE_URL: {}", databaseUrl);
-        LOG.info("Username: {}", username);
+        LOG.info("Username: {}", username != null && !username.isEmpty() ? "***" : "not set");
+        
+        // Check system property
+        String systemMongoUri = System.getProperty("MONGODB_URI");
+        if (systemMongoUri != null) {
+            String sanitizedSystemUri = systemMongoUri.replaceAll("://[^:]+:[^@]+@", "://***:***@");
+            LOG.info("MongoDB URI from system property (sanitized): {}", sanitizedSystemUri);
+        } else {
+            LOG.info("No MONGODB_URI system property set");
+        }
         
         try {
             // Test database connection by trying to count appointments
