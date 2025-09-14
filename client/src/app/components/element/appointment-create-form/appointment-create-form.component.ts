@@ -31,12 +31,17 @@ export class AppointmentCreateFormDialogComponent {
       appointmentTime : ["", [Validators.required]]
     })
     
-    // Set minimum date to tomorrow (since backend requires date after today)
+    const now = new Date()
+    // Set minimum date to now (for datetime-local input)
+    this.minDate = now.toISOString().slice(0, 16) // Format: YYYY-MM-DDTHH:mm
+    
+    // Set default appointment time to tomorrow at 9:00 AM
     const tomorrow = new Date()
     tomorrow.setDate(tomorrow.getDate() + 1)
-    this.minDate = tomorrow.toISOString().slice(0, 10) // Format: YYYY-MM-DD
+    tomorrow.setHours(9, 0, 0, 0)
+    
     this.appointmentCreateForm.patchValue({
-      appointmentTime: this.minDate
+      appointmentTime: tomorrow.toISOString().slice(0, 16)
     })
   }
 
@@ -52,27 +57,24 @@ export class AppointmentCreateFormDialogComponent {
       return
     }
     
-    // Get the date value (in YYYY-MM-DD format, will convert to full timestamp)
     const appointmentTime = this.appointmentCreateForm.get('appointmentTime')?.value
     if (!appointmentTime) {
-      this.errorMessage = "Please select an appointment date"
+      this.errorMessage = "Please select an appointment date and time"
       return
     }
     
-    // Validate that the date is after today
+    // Validate that the date is in the future
     const selectedDate = new Date(appointmentTime)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0) // Reset time to start of day
+    const now = new Date()
     
-    if (selectedDate <= today) {
-      this.errorMessage = "Appointment date must be after today"
+    if (selectedDate <= now) {
+      this.errorMessage = "Appointment time must be in the future"
       return
     }
     
-    // Convert date to full timestamp format (backend expects yyyy-MM-dd'T'HH:mm:ss)
-    // Default to 9:00 AM for the appointment time
-    const fullTimestamp = appointmentTime + 'T09:00:00'
-    console.log('Converted timestamp:', fullTimestamp)
+    // Append seconds for the backend
+    const fullTimestamp = appointmentTime + ':00'
+    console.log('Formatted timestamp for backend:', fullTimestamp)
     
     let request = new CreateAppointmentRequest({
       appointmentTime: fullTimestamp

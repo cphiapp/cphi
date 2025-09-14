@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core"
 import { Router } from "@angular/router"
-// Authentication service removed
+import { CognitoAuthService } from "../../../services/auth/auth.service"
 
 
 @Component({
@@ -10,14 +10,25 @@ import { Router } from "@angular/router"
 })
 export class MenubarComponent implements OnInit {
 
-  isAuthenticated = true // Always authenticated since auth is disabled
-  userEmail = 'test-user@example.com'
-  userName = 'Test User'
+  isAuthenticated = false
+  userEmail = ''
+  userName = ''
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private cognitoAuthService: CognitoAuthService) { }
 
   ngOnInit(): void {
-    // Authentication disabled - using fixed test user
+    this.cognitoAuthService.isAuthenticated$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated
+      console.log('Authentication status:', this.isAuthenticated)
+    })
+
+    this.cognitoAuthService.userData$.subscribe(userData => {
+      console.log('User data received:', userData)
+      if (userData && userData.userData) {
+        this.userName = userData.userData.name || ''
+        this.userEmail = userData.userData.email || ''
+      }
+    })
   }
 
   isLoggedIn() {
@@ -25,8 +36,7 @@ export class MenubarComponent implements OnInit {
   }
 
   logout() {
-    // Logout disabled - redirect to home
-    this.router.navigate(['/'])
+    this.cognitoAuthService.logout()
   }
 
   goToProfile() {

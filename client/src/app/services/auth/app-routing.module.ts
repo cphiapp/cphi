@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core"
 import { RouterModule, Routes } from "@angular/router"
 
-// Authentication guard removed
+import { CognitoAuthGuard } from "./auth.guard"
 import { LoginComponent } from "../../components/page/login/login.component"
 import { AppointmentListComponent } from "../../components/page/appointment-list/appointment-list.component"
 import { ProfileComponent } from "../../components/page/profile/profile.component"
@@ -12,7 +12,8 @@ const routes: Routes = [
   {
     path: "",
     component: AppointmentListComponent,
-    pathMatch: "full"
+    pathMatch: "full",
+    canActivate: [CognitoAuthGuard]
   },
   {
     path: "login",
@@ -20,15 +21,18 @@ const routes: Routes = [
   },
   {
     path: "appointments",
-    component: AppointmentListComponent
+    component: AppointmentListComponent,
+    canActivate: [CognitoAuthGuard]
   },
   {
     path: "profile",
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [CognitoAuthGuard]
   },
   {
     path: "settings",
-    component: SettingsComponent
+    component: SettingsComponent,
+    canActivate: [CognitoAuthGuard]
   }
 ]
 

@@ -1,33 +1,24 @@
-import { Component, OnInit, inject } from "@angular/core"
-import { Router } from "@angular/router"
-// Authentication service removed
+import { Component, inject } from "@angular/core"
+import { CognitoAuthService } from "../../../services/auth/auth.service"
+import { MatIconModule } from "@angular/material/icon"
+import { MatButtonModule } from "@angular/material/button"
 
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
+  standalone: true,
+  imports: [MatIconModule, MatButtonModule]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  private router = inject(Router)
-  
-  isAuthenticated = true // Always authenticated since auth is disabled
+  private cognitoAuthService = inject(CognitoAuthService)
 
   constructor() {}
 
-  ngOnInit(): void {
-    // Authentication disabled - redirect directly to appointments
-    this.router.navigate(['/appointments'])
-  }
-
-  // Login methods disabled
   loginWithCognito(): void {
-    this.router.navigate(['/appointments'])
-  }
-
-  logoutFromCognito(): void {
-    this.router.navigate(['/appointments'])
+    this.cognitoAuthService.login()
   }
 
 }

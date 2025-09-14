@@ -6,7 +6,7 @@
       </div>
       <div class="profile-info">
         <h1>{{ userName }}</h1>
-        <p class="profile-email">{{ userEmail }}</p>
+        <p class="profile-email">{{ userMobile }}</p>
       </div>
     </div>
   </div>
@@ -19,20 +19,12 @@
       </h2>
       <div class="info-grid">
         <div class="info-item">
-          <label>Full Name</label>
+          <label>Name</label>
           <span>{{ userName }}</span>
         </div>
         <div class="info-item">
-          <label>Email Address</label>
-          <span>{{ userEmail }}</span>
-        </div>
-        <div class="info-item" *ngIf="userGivenName">
-          <label>First Name</label>
-          <span>{{ userGivenName }}</span>
-        </div>
-        <div class="info-item" *ngIf="userFamilyName">
-          <label>Last Name</label>
-          <span>{{ userFamilyName }}</span>
+          <label>Mobile Number</label>
+          <span>{{ userMobile }}</span>
         </div>
       </div>
     </div>

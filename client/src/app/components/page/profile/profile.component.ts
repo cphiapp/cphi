@@ -1,22 +1,33 @@
 import { Component, OnInit } from '@angular/core'
-// Authentication service removed
+import { CognitoAuthService } from '../../../services/auth/auth.service'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { RouterModule } from '@angular/router'
+import { CommonModule } from '@angular/common'
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule]
 })
 export class ProfileComponent implements OnInit {
 
-  userEmail = 'test-user@example.com'
-  userName = 'Test User'
-  userGivenName = 'Test'
-  userFamilyName = 'User'
+  userName = ''
+  userMobile = ''
 
-  constructor() { }
+  constructor(private cognitoAuthService: CognitoAuthService) { }
 
   ngOnInit(): void {
-    // Authentication disabled - using fixed test user data
+    this.cognitoAuthService.userData$.subscribe(userData => {
+      console.log('Profile page user data:', userData);
+      if (userData && userData.userData) {
+        const claims = userData.userData;
+        this.userName = claims.username || '';
+        this.userMobile = claims.phone_number || '';
+      }
+    });
   }
 
 }

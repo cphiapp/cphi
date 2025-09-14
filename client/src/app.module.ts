@@ -19,8 +19,10 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle"
 import { MatDividerModule } from "@angular/material/divider"
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
 import { ReactiveFormsModule } from "@angular/forms"
+import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client'
+import { cognitoAuthConfig } from './app/services/auth/auth.config'
+import { firstValueFrom } from 'rxjs'
 
-// Authentication disabled
 import { AppComponent } from "./app/components/page/app/app.component"
 import { AppointmentCreateFormDialogComponent } from "./app/components/element/appointment-create-form/appointment-create-form.component"
 import { AppointmentListComponent } from "./app/components/page/appointment-list/appointment-list.component"
@@ -30,21 +32,22 @@ import { MenubarComponent } from "./app/components/element/menubar/menubar.compo
 import { ProfileComponent } from "./app/components/page/profile/profile.component"
 import { SettingsComponent } from "./app/components/page/settings/settings.component"
 
-
-// Authentication initialization removed
+export function configureAuth(oidcSecurityService: OidcSecurityService) {
+  return () =>
+    firstValueFrom(
+      oidcSecurityService.checkAuth()
+    );
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     AppointmentCreateFormDialogComponent,
     AppointmentListComponent,
-    LoginComponent,
     MenubarComponent,
-    ProfileComponent,
-    SettingsComponent,
   ],
   imports: [
-    
+    AuthModule.forRoot(cognitoAuthConfig),
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -67,7 +70,12 @@ import { SettingsComponent } from "./app/components/page/settings/settings.compo
     ReactiveFormsModule
   ],
   providers: [
-    // Authentication provider removed
+    {
+      provide: APP_INITIALIZER,
+      useFactory: configureAuth,
+      deps: [OidcSecurityService],
+      multi: true,
+    },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

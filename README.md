@@ -289,6 +289,11 @@ npm install --legacy-peer-deps
 - Check Terraform state is not corrupted
 - Ensure S3 bucket permissions are correct
 
+**API Request Timeouts**
+- **Symptom**: API requests from the frontend application time out, but the same request works from a tool like Postman.
+- **Cause**: This is caused by a "Mixed Content" issue. The frontend is served over `https` (from CloudFront), but the backend API endpoint is only configured to accept `http` traffic. Modern browsers block these requests for security reasons, which can manifest as a timeout.
+- **Solution**: The backend server, specifically the Application Load Balancer (ALB) at `cphi-alb-721046433.us-east-1.elb.amazonaws.com`, must be configured to accept `https` traffic on port 443 and have a valid SSL certificate. The `apiUrl` in `client/src/environments/environment.prod.ts` must be set to the `https` endpoint.
+
 ### Getting Help
 
 1. Check the logs in CloudWatch (for AWS deployments)
